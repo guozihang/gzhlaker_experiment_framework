@@ -4,13 +4,13 @@ version:
 Author: Gzhlaker
 Date: 2022-01-25 19:36:59
 LastEditors: Andy
-LastEditTime: 2022-01-26 12:29:02
+LastEditTime: 2022-01-27 16:34:09
 '''
 
-
+import sys
 from rich.panel import Panel
 from rich.progress import Progress
-
+sys.path.append("..")
 from core.util import Util
 
 class Printer:
