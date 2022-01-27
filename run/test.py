@@ -4,9 +4,12 @@ version:
 Author: Gzhlaker
 Date: 2022-01-22 22:10:18
 LastEditors: Andy
-LastEditTime: 2022-01-22 22:27:16
+LastEditTime: 2022-01-25 21:55:49
 '''
 import argparse
+
+class Texter:
+    pass
 
 def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()

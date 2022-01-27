@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-25 19:36:59
 LastEditors: Andy
-LastEditTime: 2022-01-25 21:05:02
+LastEditTime: 2022-01-26 12:29:02
 '''
 
 
@@ -21,13 +21,17 @@ class Printer:
     progress_list = {}
 
     @staticmethod
-    def print_title(content:str)-> None:
-        Printer.console.print(str, justify='center')
+    def print_title(data:str)-> None:
+        Printer.console.print(data, justify='center')
     
     @staticmethod
     def print_panle(str, title="None")-> None:
         Printer.console.print(Panel(str, title=title))
 
+    @staticmethod
+    def print_rule(data: str)-> None:
+        Printer.console.rule(data)
+    
     @staticmethod
     def print_log(str)-> None:
         Printer.console.log(str)
@@ -39,6 +43,10 @@ class Printer:
         Printer.progress_list[name]["task"] = Printer.progress_list[name]["progress"].add_task(description=name, total=total)
 
     @staticmethod
+    def get_progressor(name:str="Wow"):
+        return Printer.progress_list[name]["progress"]
+    
+    @staticmethod
     def update_progressor(name:str="Wow", advance:int=0.1)-> None:
         with Printer.progress_list[name]["progress"]:
             if not Printer.progress_list[name]["progress"].finished:
@@ -48,5 +56,11 @@ class Printer:
     @staticmethod
     def is_progressor_finished(name:str="Wow")-> bool:
         return Printer.progress_list[name]["progress"].finished
+    
+    @staticmethod
+    def update_progressor_without_progress(name:str="Wow", advance:int=0.1):
+        Printer.progress_list[name]["progress"].update(Printer.progress_list[name]["task"], advance=advance)
+
+
 
     
