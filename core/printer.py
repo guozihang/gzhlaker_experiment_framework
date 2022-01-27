@@ -4,20 +4,17 @@ version:
 Author: Gzhlaker
 Date: 2022-01-25 19:36:59
 LastEditors: Andy
-LastEditTime: 2022-01-27 16:34:09
+LastEditTime: 2022-01-27 16:48:02
 '''
-
-import sys
 from rich.panel import Panel
 from rich.progress import Progress
-sys.path.append("..")
-from core.util import Util
+from rich.console import Console
 
 class Printer:
     '''
     rich-base logger
     '''
-    console = Util.init_rich()
+    console = Console(color_system = 'auto')
     progress_list = {}
 
     @staticmethod
