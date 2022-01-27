@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-22 22:07:32
 LastEditors: Andy
-LastEditTime: 2022-01-25 21:02:26
+LastEditTime: 2022-01-27 16:30:44
 '''
 # import torch.cuda
 import json
@@ -22,8 +22,8 @@ class Util:
         '''
         init rich
         '''
-        rich_config = Util.get_yaml_data("./config/base_rich_config.yml")
-        Util.console = Console(color_system = rich_config['COLOR_SYSTEM'])
+        # rich_config = Util.get_yaml_data("./config/base_rich_config.yml")
+        Util.console = Console(color_system = 'auto')
         return Util.console
     @staticmethod
     def get_yaml_data(filename: str) -> dict:
