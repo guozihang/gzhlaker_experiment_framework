@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-22 22:07:17
 LastEditors: Andy
-LastEditTime: 2022-02-11 19:29:40
+LastEditTime: 2022-02-11 19:43:23
 '''
 import time
 import argparse
@@ -66,7 +66,7 @@ class base_trainer(base_runner):
         with Printer.get_progressor(name="[red]Train..."):
             while not Printer.is_progressor_finished(name="[red]Train..."):
                 self.hook["on_start_epoch"]()
-                self.hook["on_epoch"]
+                self.hook["on_epoch"]()
                 self.hook["on_end_epoch"]()
                 Printer.update_progressor_without_progress(name="[red]Train...", advance=1)
         self.hook["on_end_train"]()
