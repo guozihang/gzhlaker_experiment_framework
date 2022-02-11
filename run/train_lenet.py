@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 19:46:08
+LastEditTime: 2022-02-11 19:47:15
 '''
 
 import sys
@@ -65,7 +65,6 @@ class train_lenet(base_trainer):
         self.oprimizer = torch.optim.SGD(self.net.parameters(), lr = self.lr)
         return super().on_get_oprimizer()
     def on_calculate_matric(self):
-        
         return super().on_calculate_matric()
     
     def on_epoch(self):
@@ -74,7 +73,7 @@ class train_lenet(base_trainer):
             l = self.loss(y_hat, y)
             l.backward()
             self.oprimizer.step()
-        # return super().on_epoch()
+        return super().on_epoch()
         
     def on_update_parameter(self):
         return super().on_update_parameter()
