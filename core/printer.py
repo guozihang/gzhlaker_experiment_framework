@@ -4,10 +4,11 @@ version:
 Author: Gzhlaker
 Date: 2022-01-25 19:36:59
 LastEditors: Andy
-LastEditTime: 2022-02-11 23:23:21
+LastEditTime: 2022-02-12 00:07:09
 '''
 import functools
 import sys
+import time
 sys.path.append(".")
 from rich.panel import Panel
 from rich.progress import Progress
@@ -20,7 +21,7 @@ class Printer:
     '''
     rich-base logger
     '''
-    log = log_manager.get_logger("./123.txt")
+    log = log_manager.get_logger("./result/{}{}{}.txt".format(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
     console = Console(color_system = 'auto')
     progress_list = {}
 
