@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-26 12:29:37
 LastEditors: Andy
-LastEditTime: 2022-02-11 14:59:23
+LastEditTime: 2022-02-11 15:18:59
 '''
 import sys
 sys.path.append(".")
@@ -112,4 +112,19 @@ class base_runner:
 
     # @Printer.function_name
     def on_end_valid_epoch(self):
+        pass
+
+    def on_set_grad(self):
+        pass
+
+    def on_calculate_loss(self):
+        pass
+
+    def on_calculate_back_grad(self):
+        pass
+
+    def on_update_parameter(self):
+        pass
+
+    def on_calculate_matric(self):
         pass
