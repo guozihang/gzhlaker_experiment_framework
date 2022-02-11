@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 19:52:44
+LastEditTime: 2022-02-11 20:05:36
 '''
 
 import sys
@@ -16,6 +16,7 @@ from torchvision import transforms
 from torch.utils.data import DataLoader
 from base_train import base_trainer
 from models.LeNET import LeNET
+from core.printer import Printer
 class train_lenet(base_trainer):
     def __init__(self):
         super().__init__()
@@ -64,20 +65,30 @@ class train_lenet(base_trainer):
     def on_get_oprimizer(self):
         self.oprimizer = torch.optim.SGD(self.net.parameters(), lr = self.lr)
         return super().on_get_oprimizer()
-    def on_calculate_matric(self):
-        return super().on_calculate_matric()
     
-    def on_epoch(self):
-        for i, (X, y) in enumerate(self.train_iter):
-            y_hat = self.net(X)
-            l = self.loss(y_hat, y)
-            l.backward()
-            self.oprimizer.step()
-        return super().on_epoch()
-        
     def on_update_parameter(self):
         return super().on_update_parameter()
 
+    def on_epoch(self):
+        i = 0
+        for i, (X, y) in enumerate(self.train_iter):
+            i += 1
+        
+        Printer.print_rule("[green]Batch...")
+        Printer.create_progressor(name="[green]Batch...", total = i)
+        with Printer.get_progressor(name="[green]Batch..."):
+            for i, (X, y) in enumerate(self.train_iter):
+                y_hat = self.net(X)
+                l = self.loss(y_hat, y)
+                l.backward()
+                self.oprimizer.step()
+                Printer.update_progressor_without_progress(name="[green]Batch...", advance=1)
+        return super().on_epoch()
+        
+
+    def on_calculate_matric(self):
+        return super().on_calculate_matric()
+    
 if __name__ == "__main__":
     trainer = train_lenet()
     trainer.run()
