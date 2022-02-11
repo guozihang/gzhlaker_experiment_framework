@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-26 12:29:37
 LastEditors: Andy
-LastEditTime: 2022-02-11 20:26:33
+LastEditTime: 2022-02-11 22:39:24
 '''
 import sys
 sys.path.append(".")
@@ -107,7 +107,7 @@ class base_runner:
         pass
 
     def on_valid(self):
-
+        pass
     # @Printer.function_name
     def on_end_valid(self):
         pass
