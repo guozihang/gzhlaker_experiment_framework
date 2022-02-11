@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 19:47:15
+LastEditTime: 2022-02-11 19:50:13
 '''
 
 import sys
@@ -69,6 +69,7 @@ class train_lenet(base_trainer):
     
     def on_epoch(self):
         for i, (X, y) in enumerate(self.train_iter):
+            print(X, y)
             y_hat = self.net(X)
             l = self.loss(y_hat, y)
             l.backward()
