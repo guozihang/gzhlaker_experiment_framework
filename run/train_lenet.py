@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 19:19:11
+LastEditTime: 2022-02-11 19:24:52
 '''
 
 import sys
@@ -66,12 +66,14 @@ class train_lenet(base_trainer):
     def on_calculate_matric(self):
         return super().on_calculate_matric()
     
-    def on_update_parameter(self):
+    def on_set_grad(self):
         for i, (X, y) in enumerate(self.train_iter):
             y_hat = self.net(X)
             l = self.loss(y_hat, y)
             l.backward()
             self.oprimizer.step()
+        
+    def on_update_parameter(self):
         return super().on_update_parameter()
 
 if __name__ == "__main__":

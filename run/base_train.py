@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-22 22:07:17
 LastEditors: Andy
-LastEditTime: 2022-02-11 15:27:29
+LastEditTime: 2022-02-11 19:22:47
 '''
 import time
 import argparse
@@ -62,13 +62,11 @@ class base_trainer(base_runner):
     def _train(self):
         self.hook["on_start_train"]()
         Printer.print_rule("Training...")
-        Printer.create_progressor(name="[red]Train...", total = 10)
+        Printer.create_progressor(name="[red]Train...", total = self.train_epoch)
         with Printer.get_progressor(name="[red]Train..."):
             while not Printer.is_progressor_finished(name="[red]Train..."):
                 self.hook["on_start_epoch"]()
-                Printer.update_progressor_without_progress(name="[red]Train...", advance=1)
                 self.hook["on_end_epoch"]()
-                time.sleep(1)
         self.hook["on_end_train"]()
     
     def _valid(self):
@@ -78,7 +76,6 @@ class base_trainer(base_runner):
         with Printer.get_progressor(name="[red]Validing..."):
             while not Printer.is_progressor_finished(name="[red]Validing..."):
                 self.hook["on_start_valid_epoch"]()
-                Printer.update_progressor_without_progress(name="[red]Validing...", advance=1)
                 self.hook["on_end_valid_epoch"]()
                 time.sleep(1)
         self.hook["on_end_valid"]()
