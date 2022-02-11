@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 23:38:37
+LastEditTime: 2022-02-11 23:40:06
 '''
 
 import sys
@@ -73,16 +73,15 @@ class train_lenet(base_trainer):
     def on_train(self):
         for epoch in range(self.train_epoch):
             self.hook["on_start_epoch"]()
-            self.hook["on_epoch"]()
+            self.hook["on_epoch"](epoch)
             self.hook["on_end_epoch"]()
         
-    def on_epoch(self):
+    def on_epoch(self, epoch):
         j = 0
         for i, (X, Y) in enumerate(self.train_iter):
             j += 1
-        Printer.print_rule("Training...")
-        Printer.create_progressor(name="[red]Epoch...", total = j)
-        with Printer.get_progressor(name="[red]Epoch..."):
+        Printer.create_progressor(name="[red]Epoch {}...".format(epoch), total = j)
+        with Printer.get_progressor(name="[red]Epoch {}...".format(epoch)):
             for i, (X, y) in enumerate(self.train_iter):
                 self.oprimizer.zero_grad()
                 self.net.to(self.device)
@@ -91,7 +90,7 @@ class train_lenet(base_trainer):
                 l = self.loss(y_hat, y)
                 l.backward()
                 self.oprimizer.step()
-                Printer.update_progressor_without_progress(name="[red]Epoch...", advance=1)
+                Printer.update_progressor_without_progress(name="[red]Epoch {}...".format(epoch), advance=1)
         
     
     def on_valid(self):
