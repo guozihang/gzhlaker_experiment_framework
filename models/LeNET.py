@@ -4,18 +4,22 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 15:56:56
 LastEditors: Andy
-LastEditTime: 2022-02-11 16:01:30
+LastEditTime: 2022-02-11 19:21:16
 '''
 from turtle import forward
 import torch
 from torch import nn
 
 class ReShape(nn.Module):
+    def __init__(self) -> None:
+        super().__init__()
+        
     def forward(self, x):
         return x.view(-1, 1, 28, 28)
 
 class LeNET(nn.Module):
     def __init__(self):
+        super().__init__()
         self.layers = nn.Sequential(
             ReShape(),
             nn.Conv2d(1, 6, kernel_size=5, padding=2),
