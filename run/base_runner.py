@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-26 12:29:37
 LastEditors: Andy
-LastEditTime: 2022-02-11 22:39:24
+LastEditTime: 2022-02-11 23:30:03
 '''
 import sys
 sys.path.append(".")
@@ -25,20 +25,25 @@ class base_runner:
             "on_get_model": self.on_get_model,
             "on_get_loss": self.on_get_loss,
             "on_get_oprimizer": self.on_get_oprimizer,
+            # train
             "on_start_train": self.on_start_train,
+            "on_train": self.on_train,
             "on_end_train": self.on_end_train,
+            # epoch
             "on_start_epoch": self.on_start_epoch,
             "on_epoch": self.on_epoch,
             "on_end_epoch": self.on_end_epoch,
-            "on_start_valid": self.on_start_valid,
-            "on_valid": self.on_valid,
-            "on_end_valid": self.on_end_valid,
             #
             "on_set_grad": self.on_set_grad,
             "on_calculate_loss": self.on_calculate_loss,
             "on_calculate_back_grad": self.on_calculate_back_grad,
             "on_update_parameter": self.on_update_parameter,
-            "on_calculate_matric": self.on_calculate_matric
+            "on_calculate_matric": self.on_calculate_matric,
+            # valid
+            "on_start_valid": self.on_start_valid,
+            "on_valid": self.on_valid,
+            "on_end_valid": self.on_end_valid
+            
         }
     
     def _init_state(self):
@@ -84,6 +89,9 @@ class base_runner:
     
     @Printer.function_name
     def on_start_train(self):
+        pass
+
+    def on_train(self):
         pass
 
     @Printer.function_name

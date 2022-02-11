@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 20:34:47
+LastEditTime: 2022-02-11 23:32:38
 '''
 
 import sys
@@ -17,6 +17,7 @@ from torch.utils.data import DataLoader
 from base_train import base_trainer
 from models.LeNET import LeNET
 from core.printer import Printer
+from rich.progress import track
 class train_lenet(base_trainer):
     def __init__(self):
         super().__init__()
@@ -69,9 +70,20 @@ class train_lenet(base_trainer):
     
     def on_update_parameter(self):
         return super().on_update_parameter()
-
+    
+    def on_train(self):
+        for epoch in range(self.train_epoch):
+            self.hook["on_start_epoch"]()
+            self.hook["on_epoch"]()
+            self.hook["on_end_epoch"]()
+        
     def on_epoch(self):
-        for i, (X, y) in enumerate(self.train_iter):
+        # Printer.print_rule("Training...")
+        # Printer.create_progressor(name="[red]Train...", total = self.train_epoch)
+        # with Printer.get_progressor(name="[red]Train..."):
+        #     while not Printer.is_progressor_finished(name="[red]Train..."):
+        #         Printer.update_progressor_without_progress(name="[red]Train...", advance=1)
+        for i, (X, y) in track(enumerate(self.train_iter)):
             self.oprimizer.zero_grad()
             self.net.to(self.device)
             X, y = X.to(self.device), y.to(self.device)
