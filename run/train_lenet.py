@@ -4,12 +4,13 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 18:59:42
+LastEditTime: 2022-02-11 19:03:50
 '''
 
 import sys
 
 import torch
+import torchvision
 sys.path.append(".")
 from torchvision import transforms
 from torch.utils.data import DataLoader
