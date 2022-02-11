@@ -2,9 +2,9 @@
 Descripttion: 
 version: 
 Author: Gzhlaker
-Date: 2022-01-28 11:55:34
+Date: 2022-02-11 22:46:53
 LastEditors: Andy
-LastEditTime: 2022-02-11 14:04:56
+LastEditTime: 2022-02-11 22:46:54
 '''
 '''
 Descripttion: 
@@ -12,7 +12,7 @@ version:
 Author: Gzhlaker
 Date: 2021-11-25 15:31:33
 LastEditors: Andy
-LastEditTime: 2021-11-29 17:44:28
+LastEditTime: 2022-02-11 22:45:15
 '''
 import itchat, time
 import datetime
