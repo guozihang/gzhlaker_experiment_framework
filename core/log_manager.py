@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 22:17:25
 LastEditors: Andy
-LastEditTime: 2022-02-11 22:57:12
+LastEditTime: 2022-02-11 22:59:02
 '''
 import logging
 from rich.logging import RichHandler
@@ -18,7 +18,7 @@ class log_manager:
         streamhandler.setLevel(logging.INFO)
         streamhandler.setFormatter("[%(asctime)s][%(filename)s][line:%(lineno)d][%(levelname)s] %(message)s")
 
-        filehandler = logging.FileHandler(filename=filename, filemode="w")
+        filehandler = logging.FileHandler(filename, "w")
         filehandler.setLevel(logging.INFO)
         filehandler.setFormatter("[%(asctime)s][%(filename)s][line:%(lineno)d][%(levelname)s] %(message)s")
 
