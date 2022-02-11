@@ -28,14 +28,14 @@ class train_lenet(base_trainer):
             root="./data",
             train = False,
             transform = trans,
-            download = False
+            download = True
         )
         trans = transforms.ToTensor()
         self.mnist_train = torchvision.datasets.FashionMNIST(
             root="./data",
             train = True,
             transform = trans,
-            download = False
+            download = True
         )
         return super().on_get_dataset()
     
