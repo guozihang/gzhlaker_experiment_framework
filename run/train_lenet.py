@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 19:03:50
+LastEditTime: 2022-02-11 19:11:40
 '''
 
 import sys
@@ -20,7 +20,7 @@ class train_lenet(base_trainer):
     def __init__(self):
         super().__init__()
         self.batch_size = 256
-    
+        self.lr = 0.1
 
     def on_get_dataset(self):
         trans = transforms.ToTensor()
