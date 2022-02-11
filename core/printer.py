@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-25 19:36:59
 LastEditors: Andy
-LastEditTime: 2022-02-12 00:10:14
+LastEditTime: 2022-02-12 00:19:55
 '''
 import functools
 import os
@@ -20,11 +20,13 @@ install(show_locals=False)
 
 if os.path.exists("./result") == False:
     os.mkdir(os.getcwd() + "/result")
+timestr = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
+os.mkdir(os.getcwd() + "/result/" + timestr)
 class Printer:
     '''
     rich-base logger
     '''
-    log = log_manager.get_logger("./result/{}.txt".format(time.strftime("%Y-%m-%d-%H:%M:%S", time.localtime())))
+    log = log_manager.get_logger("./result/{}.txt".format(timestr))
     console = Console(color_system = 'auto')
     progress_list = {}
 

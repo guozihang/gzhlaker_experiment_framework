@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-26 12:29:37
 LastEditors: Andy
-LastEditTime: 2022-02-11 23:52:50
+LastEditTime: 2022-02-12 00:16:22
 '''
 import sys
 sys.path.append(".")
@@ -55,10 +55,12 @@ class base_runner:
         self.state = {
             "train_model": None,
             "valid_model": None,
+            "train_iter": None,
+            "valid_iter": None,
         }
     def _init_config(self):
         self.config = {}
-        
+
     @Printer.function_name
     def on_init(self):
         pass
