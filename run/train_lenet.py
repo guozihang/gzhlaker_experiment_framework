@@ -21,6 +21,7 @@ class train_lenet(base_trainer):
         super().__init__()
         self.batch_size = 256
         self.lr = 0.1
+        self.train_epoch = 10
 
     def on_get_dataset(self):
         trans = transforms.ToTensor()
