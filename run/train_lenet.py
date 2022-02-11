@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-12 00:03:36
+LastEditTime: 2022-02-12 00:28:52
 '''
 
 import sys
@@ -79,7 +79,10 @@ class train_lenet(base_trainer):
             self.hook["on_start_epoch"]()
             self.hook["on_epoch"](epoch)
             self.hook["on_end_epoch"]()
-
+    
+    def on_end_train(self):
+        return super().on_end_train()
+    
     def on_set_grad(self):
         self.oprimizer.zero_grad()
         return super().on_set_grad() 
