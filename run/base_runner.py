@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-26 12:29:37
 LastEditors: Andy
-LastEditTime: 2022-02-11 19:30:33
+LastEditTime: 2022-02-11 19:44:43
 '''
 import sys
 sys.path.append(".")
@@ -35,11 +35,11 @@ class base_runner:
             "on_start_valid_epoch": self.on_start_valid_epoch,
             "on_end_valid_epoch": self.on_end_valid_epoch,
             #
-            "on_set_grad": None,
-            "on_calculate_loss": None,
-            "on_calculate_back_grad": None,
-            "on_update_parameter": None,
-            "on_calculate_matric": None
+            "on_set_grad": self.on_set_grad,
+            "on_calculate_loss": self.on_calculate_loss,
+            "on_calculate_back_grad": self.on_calculate_back_grad,
+            "on_update_parameter": self.on_update_parameter,
+            "on_calculate_matric": self.on_calculate_matric
         }
     
     def _init_state(self):
