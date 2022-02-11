@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 20:08:35
+LastEditTime: 2022-02-11 20:09:55
 '''
 
 import sys
@@ -75,8 +75,6 @@ class train_lenet(base_trainer):
             l = self.loss(y_hat, y)
             l.backward()
             self.oprimizer.step()
-            Printer.print_log("run batch: {}".format(i))
-        return super().on_epoch()
         
 
     def on_calculate_matric(self):
