@@ -4,8 +4,9 @@ version:
 Author: Gzhlaker
 Date: 2022-01-25 19:36:59
 LastEditors: Andy
-LastEditTime: 2022-01-27 16:48:02
+LastEditTime: 2022-02-11 13:38:38
 '''
+import functools
 from rich.panel import Panel
 from rich.progress import Progress
 from rich.console import Console
@@ -32,7 +33,21 @@ class Printer:
     @staticmethod
     def print_log(str)-> None:
         Printer.console.log(str)
+    @staticmethod
+    def function_name(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kward):
+            Printer.console.log('[red]call [blue]%s():' % func.__name__)
+            return func(*args, **kward)
+        return wrapper
 
+    @staticmethod
+    def function_log(func, str):
+        @functools.wraps(func)
+        def wrapper(*args, **kward):
+            Printer.console.log(str)
+            return func(*args, **kward)
+        return wrapper
     @staticmethod
     def create_progressor(name:str="Wow", total:int=1000)-> None:
         Printer.progress_list[name] = {}
@@ -57,7 +72,5 @@ class Printer:
     @staticmethod
     def update_progressor_without_progress(name:str="Wow", advance:int=0.1):
         Printer.progress_list[name]["progress"].update(Printer.progress_list[name]["task"], advance=advance)
-
-
 
     

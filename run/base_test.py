@@ -4,12 +4,16 @@ version:
 Author: Gzhlaker
 Date: 2022-01-22 22:10:18
 LastEditors: Andy
-LastEditTime: 2022-01-25 21:55:49
+LastEditTime: 2022-01-28 16:53:35
 '''
 import argparse
 
-class Texter:
-    pass
+from run.base_runner import base_runner
+
+class base_tester(base_runner):
+    '''define basic process'''
+    def __init__(self):
+        super(base_tester).__init__()
 
 def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
