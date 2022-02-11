@@ -14,13 +14,14 @@ class log_manager:
     def get_logger(filename):
         log = logging.getLogger("rich")
         log.setLevel(logging.INFO)
-        streamhandler = RichHandler()
-        streamhandler.setLevel(logging.INFO)
-        streamhandler.setFormatter("[%(asctime)s][%(filename)s][line:%(lineno)d][%(levelname)s] %(message)s")
+        richhandler = RichHandler()
+        richhandler.setLevel(logging.INFO)
+        richhandler.setFormatter("[%(asctime)s][%(filename)s][line:%(lineno)d][%(levelname)s] %(message)s")
 
         filehandler = logging.FileHandler(filename, "w")
         filehandler.setLevel(logging.INFO)
         filehandler.setFormatter("[%(asctime)s][%(filename)s][line:%(lineno)d][%(levelname)s] %(message)s")
 
-        log.addHandler(log_manager.get_filehandler())
+        log.addHandler(richhandler)
+        log.addHandler(filehandler)
         return log
