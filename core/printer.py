@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-25 19:36:59
 LastEditors: Andy
-LastEditTime: 2022-02-11 23:17:09
+LastEditTime: 2022-02-11 23:23:21
 '''
 import functools
 import sys
@@ -14,7 +14,7 @@ from rich.progress import Progress
 from rich.console import Console
 from rich.traceback import install
 from core.log_manager import log_manager
-install(show_locals=True)
+install(show_locals=False)
 
 class Printer:
     '''
