@@ -21,7 +21,7 @@ class Printer:
     '''
     rich-base logger
     '''
-    log = log_manager.get_logger("./result/{}{}{}.txt".format(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
+    log = log_manager.get_logger("./result/{}.txt".format(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
     console = Console(color_system = 'auto')
     progress_list = {}
 
