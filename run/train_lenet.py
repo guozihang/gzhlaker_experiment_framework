@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 18:57:47
+LastEditTime: 2022-02-11 18:59:42
 '''
 
 import sys
@@ -73,3 +73,7 @@ class train_lenet(base_trainer):
             l.backward()
             self.oprimizer.step()
         return super().on_update_parameter()
+
+if __name__ == "__main__":
+    trainer = train_lenet()
+    trainer.run()
