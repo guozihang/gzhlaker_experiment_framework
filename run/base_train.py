@@ -4,9 +4,8 @@ version:
 Author: Gzhlaker
 Date: 2022-01-22 22:07:17
 LastEditors: Andy
-LastEditTime: 2022-02-11 19:51:15
+LastEditTime: 2022-02-11 20:25:59
 '''
-import time
 import argparse
 import random
 import torch
@@ -72,14 +71,9 @@ class base_trainer(base_runner):
         self.hook["on_end_train"]()
     
     def _valid(self):
-        self.hook["on_start_valid"]()
         Printer.print_rule("Validing...")
-        Printer.create_progressor(name="[red]Validing...", total = 10)
-        with Printer.get_progressor(name="[red]Validing..."):
-            while not Printer.is_progressor_finished(name="[red]Validing..."):
-                self.hook["on_start_valid_epoch"]()
-                self.hook["on_end_valid_epoch"]()
-                Printer.update_progressor_without_progress(name="[red]Validing...", advance=1)
+        self.hook["on_start_valid"]()
+        self.hook["on_valid"]()
         self.hook["on_end_valid"]()
 
     @Printer.function_name

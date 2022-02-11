@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-26 12:29:37
 LastEditors: Andy
-LastEditTime: 2022-02-11 19:44:43
+LastEditTime: 2022-02-11 20:26:33
 '''
 import sys
 sys.path.append(".")
@@ -31,9 +31,8 @@ class base_runner:
             "on_epoch": self.on_epoch,
             "on_end_epoch": self.on_end_epoch,
             "on_start_valid": self.on_start_valid,
+            "on_valid": self.on_valid,
             "on_end_valid": self.on_end_valid,
-            "on_start_valid_epoch": self.on_start_valid_epoch,
-            "on_end_valid_epoch": self.on_end_valid_epoch,
             #
             "on_set_grad": self.on_set_grad,
             "on_calculate_loss": self.on_calculate_loss,
@@ -91,7 +90,7 @@ class base_runner:
     def on_end_train(self):
         pass
 
-    @Printer.function_name
+    # @Printer.function_name
     def on_start_epoch(self):
         pass
 
@@ -99,15 +98,17 @@ class base_runner:
     def on_epoch(self):
         pass
 
-    @Printer.function_name
+    # @Printer.function_name
     def on_end_epoch(self):
         pass
 
-    @Printer.function_name
+    # @Printer.function_name
     def on_start_valid(self):
         pass
 
-    @Printer.function_name
+    def on_valid(self):
+
+    # @Printer.function_name
     def on_end_valid(self):
         pass
 

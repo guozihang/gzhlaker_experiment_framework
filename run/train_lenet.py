@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 20:18:13
+LastEditTime: 2022-02-11 20:34:47
 '''
 
 import sys
@@ -79,7 +79,13 @@ class train_lenet(base_trainer):
             l = self.loss(y_hat, y)
             l.backward()
             self.oprimizer.step()
-        
+    
+    def on_valid(self):
+        self.net.eval()
+        for X, y in self.train_iter:
+            X = X.to(self.device)
+            y = y.to(self.device)
+            
 
     def on_calculate_matric(self):
         return super().on_calculate_matric()
