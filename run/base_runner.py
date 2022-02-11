@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-26 12:29:37
 LastEditors: Andy
-LastEditTime: 2022-02-11 23:30:03
+LastEditTime: 2022-02-11 23:52:50
 '''
 import sys
 sys.path.append(".")
@@ -14,6 +14,7 @@ class base_runner:
     def __init__(self):
         self._init_hook()
         self._init_state()
+        self._init_config()
 
     def _init_hook(self):
         self.hook = {
@@ -42,7 +43,11 @@ class base_runner:
             # valid
             "on_start_valid": self.on_start_valid,
             "on_valid": self.on_valid,
-            "on_end_valid": self.on_end_valid
+            "on_end_valid": self.on_end_valid,
+            # test
+            "on_start_test": None,
+            "on_test": None,
+            "on_end_test": None
             
         }
     
@@ -51,6 +56,9 @@ class base_runner:
             "train_model": None,
             "valid_model": None,
         }
+    def _init_config(self):
+        self.config = {}
+        
     @Printer.function_name
     def on_init(self):
         pass

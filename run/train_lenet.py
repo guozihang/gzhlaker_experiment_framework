@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 23:40:06
+LastEditTime: 2022-02-11 23:54:47
 '''
 
 import sys
@@ -14,9 +14,11 @@ import torchvision
 sys.path.append(".")
 from torchvision import transforms
 from torch.utils.data import DataLoader
-from base_train import base_trainer
-from models.LeNET import LeNET
 from core.printer import Printer
+from models.LeNET import LeNET
+from base_train import base_trainer
+from core.util import Util
+
 class train_lenet(base_trainer):
     def __init__(self):
         super().__init__()
@@ -24,7 +26,10 @@ class train_lenet(base_trainer):
         self.lr = 0.1
         self.train_epoch = 10
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
+    def on_get_config(self):
+        self.config = Util.get_yaml_data("./config/LENET_TRAIN.yml")
+        Printer.log.info(self.config)
+        return super().on_get_config()
     def on_get_dataset(self):
         trans = transforms.ToTensor()
         self.mnist_test = torchvision.datasets.FashionMNIST(
@@ -60,9 +65,11 @@ class train_lenet(base_trainer):
     def on_get_model(self):
         self.net = LeNET()
         return super().on_get_model()
+
     def on_get_loss(self):
         self.loss = torch.nn.CrossEntropyLoss()
         return super().on_get_loss()
+        
     def on_get_oprimizer(self):
         self.oprimizer = torch.optim.SGD(self.net.parameters(), lr = self.lr)
         return super().on_get_oprimizer()
@@ -75,7 +82,11 @@ class train_lenet(base_trainer):
             self.hook["on_start_epoch"]()
             self.hook["on_epoch"](epoch)
             self.hook["on_end_epoch"]()
-        
+
+    def on_set_grad(self):
+        self.oprimizer.zero_grad()
+        return super().on_set_grad() 
+
     def on_epoch(self, epoch):
         j = 0
         for i, (X, Y) in enumerate(self.train_iter):
