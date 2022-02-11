@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-25 19:36:59
 LastEditors: Andy
-LastEditTime: 2022-02-11 22:40:19
+LastEditTime: 2022-02-11 22:41:53
 '''
 import functools
 import sys
@@ -18,7 +18,7 @@ class Printer:
     '''
     rich-base logger
     '''
-    log = log_manager.get_logger("123.txt")
+    log = log_manager.get_logger("./123.txt")
     console = Console(color_system = 'auto')
     progress_list = {}
 

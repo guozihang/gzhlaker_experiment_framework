@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 22:17:25
 LastEditors: Andy
-LastEditTime: 2022-02-11 22:35:35
+LastEditTime: 2022-02-11 22:42:50
 '''
 import logging
 from rich.logging import RichHandler
@@ -18,7 +18,7 @@ class log_manager:
         log_manager.set_level()
         log_manager.set_fotmater()
         log_manager.set_filehandler(filename)
-        
+
         logging.basicConfig(
             level=log_manager.get_level(),
             format=log_manager.get_formater(), 
@@ -44,9 +44,8 @@ class log_manager:
         return log_manager.level
 
     @staticmethod
-    def set_fotmater(formater = logging.Formatter(
-            "[%(asctime)s][%(filename)s][line:%(lineno)d][%(levelname)s] %(message)s"
-        )):
+    def set_fotmater(formater = "[%(asctime)s][%(filename)s][line:%(lineno)d][%(levelname)s] %(message)s"
+        ):
         log_manager.formater = formater
 
     @staticmethod
