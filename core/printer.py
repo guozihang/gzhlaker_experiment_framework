@@ -4,14 +4,15 @@ version:
 Author: Gzhlaker
 Date: 2022-01-25 19:36:59
 LastEditors: Andy
-LastEditTime: 2022-02-11 22:25:13
+LastEditTime: 2022-02-11 22:40:19
 '''
 import functools
-
+import sys
+sys.path.append(".")
 from rich.panel import Panel
 from rich.progress import Progress
 from rich.console import Console
-from log_manager import log_manager
+from core.log_manager import log_manager
 
 class Printer:
     '''
