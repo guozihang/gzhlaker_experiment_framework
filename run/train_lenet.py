@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 23:32:38
+LastEditTime: 2022-02-11 23:37:15
 '''
 
 import sys
@@ -17,7 +17,6 @@ from torch.utils.data import DataLoader
 from base_train import base_trainer
 from models.LeNET import LeNET
 from core.printer import Printer
-from rich.progress import track
 class train_lenet(base_trainer):
     def __init__(self):
         super().__init__()
@@ -78,19 +77,22 @@ class train_lenet(base_trainer):
             self.hook["on_end_epoch"]()
         
     def on_epoch(self):
-        # Printer.print_rule("Training...")
-        # Printer.create_progressor(name="[red]Train...", total = self.train_epoch)
-        # with Printer.get_progressor(name="[red]Train..."):
-        #     while not Printer.is_progressor_finished(name="[red]Train..."):
-        #         Printer.update_progressor_without_progress(name="[red]Train...", advance=1)
-        for i, (X, y) in track(enumerate(self.train_iter)):
-            self.oprimizer.zero_grad()
-            self.net.to(self.device)
-            X, y = X.to(self.device), y.to(self.device)
-            y_hat = self.net(X)
-            l = self.loss(y_hat, y)
-            l.backward()
-            self.oprimizer.step()
+        j = 0
+        for i, (X, Y) in enumerate(self.train_iter):
+            j += 1
+        Printer.print_rule("Training...")
+        Printer.create_progressor(name="[red]Epoch...", total = j)
+        with Printer.get_progressor(name="[red]Epoch..."):
+            for i, (X, y) in enumerate(self.train_iter):
+                self.oprimizer.zero_grad()
+                self.net.to(self.device)
+                X, y = X.to(self.device), y.to(self.device)
+                y_hat = self.net(X)
+                l = self.loss(y_hat, y)
+                l.backward()
+                self.oprimizer.step()
+                Printer.update_progressor_without_progress(name="[[red]Epoch...", advance=1)
+        
     
     def on_valid(self):
         self.net.eval()
