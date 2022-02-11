@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 22:17:25
 LastEditors: Andy
-LastEditTime: 2022-02-11 22:51:30
+LastEditTime: 2022-02-11 22:52:53
 '''
 import logging
 from unicodedata import name
@@ -24,14 +24,12 @@ class log_manager:
             format=log_manager.get_formater(), 
             datefmt="[%X]", 
             handlers=[RichHandler()],
-            filename=filename,
-            filemode="w"
+            # filename=filename,
+            # filemode="w"
         )
 
         log = logging.getLogger("rich")
         log.setLevel(log_manager.get_level())
-
-        log.addHandler(log_manager.get_filehandler())
         return log
     
     @staticmethod
