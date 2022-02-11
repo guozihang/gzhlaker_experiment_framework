@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 20:09:55
+LastEditTime: 2022-02-11 20:14:56
 '''
 
 import sys
@@ -23,6 +23,7 @@ class train_lenet(base_trainer):
         self.batch_size = 256
         self.lr = 0.1
         self.train_epoch = 10
+        self.device = torch.device("cuda")
 
     def on_get_dataset(self):
         trans = transforms.ToTensor()
@@ -71,7 +72,10 @@ class train_lenet(base_trainer):
 
     def on_epoch(self):
         for i, (X, y) in enumerate(self.train_iter):
+            self.oprimizer.zero_grad()
+            self.net.to(self.device)
             y_hat = self.net(X)
+            X, y = X.to(self.device), y.to(self.device)
             l = self.loss(y_hat, y)
             l.backward()
             self.oprimizer.step()
