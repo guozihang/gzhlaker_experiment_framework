@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-22 22:07:17
 LastEditors: Andy
-LastEditTime: 2022-02-11 23:31:10
+LastEditTime: 2022-02-11 23:41:47
 '''
 import argparse
 import random
@@ -59,6 +59,7 @@ class base_trainer(base_runner):
             Printer.print_log("Using CPU") 
     
     def _train(self):
+        Printer.print_rule("Training...")
         self.hook["on_start_train"]()
         self.hook["on_train"]()
         self.hook["on_end_train"]()
