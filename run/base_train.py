@@ -94,13 +94,13 @@ class base_trainer(base_runner):
             Printer.print_log("-- {}: {}".format(key, vars(self.args)[key]))
     
     def on_start_epoch(self):
-        self.hook["on_set_grad"]
-        self.hook["on_calculate_loss"]
-        self.hook["on_calculate_back_grad"]
-        self.hook["on_update_parameter"]
+        self.hook["on_set_grad"]()
+        self.hook["on_calculate_loss"]()
+        self.hook["on_calculate_back_grad"]()
+        self.hook["on_update_parameter"]()
         
     def on_end_epoch(self):
-        self.hook["on_calculate_matric"]
+        self.hook["on_calculate_matric"]()
     
 def main():
     trainer = base_trainer()
