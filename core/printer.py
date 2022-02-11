@@ -4,9 +4,10 @@ version:
 Author: Gzhlaker
 Date: 2022-01-25 19:36:59
 LastEditors: Andy
-LastEditTime: 2022-02-12 00:07:09
+LastEditTime: 2022-02-12 00:10:14
 '''
 import functools
+import os
 import sys
 import time
 sys.path.append(".")
@@ -17,11 +18,13 @@ from rich.traceback import install
 from core.log_manager import log_manager
 install(show_locals=False)
 
+if os.path.exists("./result") == False:
+    os.mkdir(os.getcwd() + "/result")
 class Printer:
     '''
     rich-base logger
     '''
-    log = log_manager.get_logger("./result/{}.txt".format(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
+    log = log_manager.get_logger("./result/{}.txt".format(time.strftime("%Y-%m-%d-%H:%M:%S", time.localtime())))
     console = Console(color_system = 'auto')
     progress_list = {}
 
