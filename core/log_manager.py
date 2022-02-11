@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 22:17:25
 LastEditors: Andy
-LastEditTime: 2022-02-11 23:12:17
+LastEditTime: 2022-02-11 23:21:13
 '''
 import logging
 from rich.logging import RichHandler
@@ -12,7 +12,7 @@ from rich.console import Console
 class log_manager:
     @staticmethod
     def get_logger(filename):
-        FORMAT = "%(message)s"
+        FORMAT = "[%(asctime)s][%(filename)s][line:%(lineno)d][%(levelname)s] %(message)s"
         logging.basicConfig(
             level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
         )
