@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 20:05:36
+LastEditTime: 2022-02-11 20:08:35
 '''
 
 import sys
@@ -70,19 +70,12 @@ class train_lenet(base_trainer):
         return super().on_update_parameter()
 
     def on_epoch(self):
-        i = 0
         for i, (X, y) in enumerate(self.train_iter):
-            i += 1
-        
-        Printer.print_rule("[green]Batch...")
-        Printer.create_progressor(name="[green]Batch...", total = i)
-        with Printer.get_progressor(name="[green]Batch..."):
-            for i, (X, y) in enumerate(self.train_iter):
-                y_hat = self.net(X)
-                l = self.loss(y_hat, y)
-                l.backward()
-                self.oprimizer.step()
-                Printer.update_progressor_without_progress(name="[green]Batch...", advance=1)
+            y_hat = self.net(X)
+            l = self.loss(y_hat, y)
+            l.backward()
+            self.oprimizer.step()
+            Printer.print_log("run batch: {}".format(i))
         return super().on_epoch()
         
 
