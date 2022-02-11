@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-26 12:29:37
 LastEditors: Andy
-LastEditTime: 2022-02-11 19:26:59
+LastEditTime: 2022-02-11 19:30:33
 '''
 import sys
 sys.path.append(".")
@@ -91,14 +91,15 @@ class base_runner:
     def on_end_train(self):
         pass
 
-    # @Printer.function_name
+    @Printer.function_name
     def on_start_epoch(self):
         pass
 
+    @Printer.function_name
     def on_epoch(self):
         pass
-    
-    # @Printer.function_name
+
+    @Printer.function_name
     def on_end_epoch(self):
         pass
 
@@ -110,11 +111,11 @@ class base_runner:
     def on_end_valid(self):
         pass
 
-    # @Printer.function_name
+    @Printer.function_name
     def on_start_valid_epoch(self):
         pass
 
-    # @Printer.function_name
+    @Printer.function_name
     def on_end_valid_epoch(self):
         pass
 
