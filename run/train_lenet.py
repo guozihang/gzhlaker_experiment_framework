@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 23:58:56
+LastEditTime: 2022-02-12 00:00:30
 '''
 
 import sys
@@ -22,9 +22,6 @@ from core.util import Util
 class train_lenet(base_trainer):
     def __init__(self):
         super().__init__()
-        self.batch_size = 256
-        self.lr = 0.1
-        self.train_epoch = 10
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     def on_get_config(self):
         self.config = Util.get_yaml_data("./config/LENET_TRAINER.yml")
@@ -50,13 +47,13 @@ class train_lenet(base_trainer):
     def on_get_dataLoader(self):
         self.train_iter = DataLoader(
             self.mnist_train, 
-            batch_size= self.batch_size,
+            batch_size= self.config["BATCH_SIZE"],
             shuffle = True,
             num_workers = 12
         )
         self.test_iter = DataLoader(
             self.mnist_train, 
-            batch_size= self.batch_size,
+            batch_size= self.config["BATCH_SIZE"],
             shuffle = True,
             num_workers = 12
         )
@@ -71,14 +68,14 @@ class train_lenet(base_trainer):
         return super().on_get_loss()
         
     def on_get_oprimizer(self):
-        self.oprimizer = torch.optim.SGD(self.net.parameters(), lr = self.lr)
+        self.oprimizer = torch.optim.SGD(self.net.parameters(), lr = self.config["LR"])
         return super().on_get_oprimizer()
     
     def on_update_parameter(self):
         return super().on_update_parameter()
     
     def on_train(self):
-        for epoch in range(self.train_epoch):
+        for epoch in range(self.config("TRAIN_EPOCH")):
             self.hook["on_start_epoch"]()
             self.hook["on_epoch"](epoch)
             self.hook["on_end_epoch"]()
