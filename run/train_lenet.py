@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 23:37:15
+LastEditTime: 2022-02-11 23:38:37
 '''
 
 import sys
@@ -91,7 +91,7 @@ class train_lenet(base_trainer):
                 l = self.loss(y_hat, y)
                 l.backward()
                 self.oprimizer.step()
-                Printer.update_progressor_without_progress(name="[[red]Epoch...", advance=1)
+                Printer.update_progressor_without_progress(name="[red]Epoch...", advance=1)
         
     
     def on_valid(self):
