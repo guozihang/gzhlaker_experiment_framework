@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 23:54:47
+LastEditTime: 2022-02-11 23:58:56
 '''
 
 import sys
@@ -27,7 +27,7 @@ class train_lenet(base_trainer):
         self.train_epoch = 10
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     def on_get_config(self):
-        self.config = Util.get_yaml_data("./config/LENET_TRAIN.yml")
+        self.config = Util.get_yaml_data("./config/LENET_TRAINER.yml")
         Printer.log.info(self.config)
         return super().on_get_config()
     def on_get_dataset(self):
