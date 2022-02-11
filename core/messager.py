@@ -4,76 +4,55 @@ version:
 Author: Gzhlaker
 Date: 2022-01-28 11:55:34
 LastEditors: Andy
-LastEditTime: 2022-01-28 12:18:52
+LastEditTime: 2022-02-11 14:04:56
 '''
+'''
+Descripttion: 
+version: 
+Author: Gzhlaker
+Date: 2021-11-25 15:31:33
+LastEditors: Andy
+LastEditTime: 2021-11-29 17:44:28
+'''
+import itchat, time
+import datetime
+import threading
+from itchat.content import *
 
-import sys
-from typing import List
+class gzhlaker_wechat_talker:
+    @staticmethod
+    def init():
+        itchat.auto_login(enableCmdQR=2, hotReload=False)
+    
+    @staticmethod
+    def send(msg, nick_name):
+        for user in itchat.get_friends():
+            print(user["NickName"])
+            if user["NickName"] == nick_name:
+                print(user["UserName"])
+                itchat.send_msg(msg, user["UserName"])
 
-from alibabacloud_dysmsapi20170525.client import Client as Dysmsapi20170525Client
-from alibabacloud_tea_openapi import models as open_api_models
-from alibabacloud_dysmsapi20170525 import models as dysmsapi_20170525_models
-
-
-
-class Sample:
+class gzhaler_message:
     def __init__(self):
-        pass
+        self._message = "";
+    def add_message(self, message):
+        self._message = self._message + message
+    def change_line(self):
+        self._message = self._message + "\n"
+    def add_line(self, string):
+        self.add_message(string)
+        self.change_line()
+    def __str__(self):
+        return self._message
 
-    @staticmethod
-    def create_client(
-        access_key_id: str,
-        access_key_secret: str,
-    ) -> Dysmsapi20170525Client:
-        """
-        使用AK&SK初始化账号Client
-        @param access_key_id:
-        @param access_key_secret:
-        @return: Client
-        @throws Exception
-        """
-        config = open_api_models.Config(
-            # 您的AccessKey ID,
-            access_key_id="LTAI5tC8gZSPVqxYs71LX5mQ",
-            # 您的AccessKey Secret,
-            access_key_secret="Voqzn7x1MUMofmYkbKUvGD45KvPcnj"
-        )
-        # 访问的域名
-        config.endpoint = f'dysmsapi.aliyuncs.com   '
-        return Dysmsapi20170525Client(config)
-
-    @staticmethod
-    def main(
-        args: List[str],
-    ) -> None:
-        client = Sample.create_client('accessKeyId', 'accessKeySecret')
-        dysmsapi_20170525_models.SendSmsRequest(
-            PhoneNumbers="15057271937",
-            SignName=
-        )
-        add_short_url_request = dysmsapi_20170525_models.AddShortUrlRequest(
-            resource_owner_account='your_value',
-            resource_owner_id=1,
-            source_url='your_value',
-            short_url_name='your_value'
-        )
-        # 复制代码运行请自行打印 API 的返回值
-        client.add_short_url(add_short_url_request)
-
-    @staticmethod
-    async def main_async(
-        args: List[str],
-    ) -> None:
-        client = Sample.create_client('accessKeyId', 'accessKeySecret')
-        add_short_url_request = dysmsapi_20170525_models.AddShortUrlRequest(
-            resource_owner_account='your_value',
-            resource_owner_id=1,
-            source_url='your_value',
-            short_url_name='your_value'
-        )
-        # 复制代码运行请自行打印 API 的返回值
-        await client.add_short_url_async(add_short_url_request)
-
-
-if __name__ == '__main__':
-    Sample.main("hello")
+def main():
+    gzhlaker_wechat_talker.init()
+    msg = gzhaler_message()
+    msg.add_line("本次程序运行结果已完成")
+    msg.add_line("参数X的值为1")
+    msg.add_line("参数Y的值为2")
+    print(msg._message)
+    gzhlaker_wechat_talker.send(str(msg), "不温")
+    
+if __name__ == "__main__":
+    main()
