@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 20:14:56
+LastEditTime: 2022-02-11 20:17:11
 '''
 
 import sys
@@ -23,7 +23,7 @@ class train_lenet(base_trainer):
         self.batch_size = 256
         self.lr = 0.1
         self.train_epoch = 10
-        self.device = torch.device("cuda")
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     def on_get_dataset(self):
         trans = transforms.ToTensor()
