@@ -19,7 +19,6 @@ class train_lenet(base_trainer):
     def __init__(self):
         super().__init__()
         self.batch_size = 256
-        self.train_iter
     
 
     def on_get_dataset(self):
