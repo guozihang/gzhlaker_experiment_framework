@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-22 22:07:17
 LastEditors: Andy
-LastEditTime: 2022-02-12 00:28:26
+LastEditTime: 2022-02-12 00:32:17
 '''
 import argparse
 import random
@@ -94,7 +94,7 @@ class base_trainer(base_runner):
         return super().on_end_train()
     def on_save_checkpoints(self):
         torch.save({
-            'model_state_dict': self.model.state_dict(),
+            'model_state_dict': self.net.state_dict(),
             'optimizer_state_dict': self.optimizer.state_dict(),
             'loss': self.loss,
         },  "./result/{}/{}".format(Printer.timestr, Printer.timestr))
