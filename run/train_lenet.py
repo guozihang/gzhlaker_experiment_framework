@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-12 00:00:30
+LastEditTime: 2022-02-12 00:03:36
 '''
 
 import sys
@@ -75,7 +75,7 @@ class train_lenet(base_trainer):
         return super().on_update_parameter()
     
     def on_train(self):
-        for epoch in range(self.config("TRAIN_EPOCH")):
+        for epoch in range(self.config["TRAIN_EPOCH"]):
             self.hook["on_start_epoch"]()
             self.hook["on_epoch"](epoch)
             self.hook["on_end_epoch"]()
