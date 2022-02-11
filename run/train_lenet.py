@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 19:43:05
+LastEditTime: 2022-02-11 19:46:08
 '''
 
 import sys
@@ -74,7 +74,7 @@ class train_lenet(base_trainer):
             l = self.loss(y_hat, y)
             l.backward()
             self.oprimizer.step()
-        return super().on_epoch()
+        # return super().on_epoch()
         
     def on_update_parameter(self):
         return super().on_update_parameter()
