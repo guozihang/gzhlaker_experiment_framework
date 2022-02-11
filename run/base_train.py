@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-22 22:07:17
 LastEditors: Andy
-LastEditTime: 2022-02-11 23:41:47
+LastEditTime: 2022-02-12 00:28:26
 '''
 import argparse
 import random
@@ -89,7 +89,16 @@ class base_trainer(base_runner):
         
     def on_end_epoch(self):
         self.hook["on_calculate_matric"]()
-    
+    def on_end_train(self):
+        self.on_save_checkpoints()
+        return super().on_end_train()
+    def on_save_checkpoints(self):
+        torch.save({
+            'model_state_dict': self.model.state_dict(),
+            'optimizer_state_dict': self.optimizer.state_dict(),
+            'loss': self.loss,
+        },  "./result/{}/{}".format(Printer.timestr, Printer.timestr))
+        return super().on_save_checkpoints()
 def main():
     trainer = base_trainer()
     trainer.run()

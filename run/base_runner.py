@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-26 12:29:37
 LastEditors: Andy
-LastEditTime: 2022-02-12 00:16:22
+LastEditTime: 2022-02-12 00:23:39
 '''
 import sys
 sys.path.append(".")
@@ -47,7 +47,8 @@ class base_runner:
             # test
             "on_start_test": None,
             "on_test": None,
-            "on_end_test": None
+            "on_end_test": None,
+            "on_save_checkpoints": self.on_save_checkpoints
             
         }
     
@@ -151,4 +152,7 @@ class base_runner:
         pass
 
     def on_calculate_matric(self):
+        pass
+
+    def on_save_checkpoints(self):
         pass

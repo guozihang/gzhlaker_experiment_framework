@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-25 19:36:59
 LastEditors: Andy
-LastEditTime: 2022-02-12 00:19:55
+LastEditTime: 2022-02-12 00:22:19
 '''
 import functools
 import os
@@ -26,7 +26,8 @@ class Printer:
     '''
     rich-base logger
     '''
-    log = log_manager.get_logger("./result/{}.txt".format(timestr))
+    timestr = timestr
+    log = log_manager.get_logger("./result/{}/{}.txt".format(timestr, timestr))
     console = Console(color_system = 'auto')
     progress_list = {}
 
