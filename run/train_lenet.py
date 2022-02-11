@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-11 19:15:36
+LastEditTime: 2022-02-11 19:19:11
 '''
 
 import sys
@@ -55,7 +55,7 @@ class train_lenet(base_trainer):
         return super().on_get_dataLoader()
     
     def on_get_model(self):
-        self.net = LeNET
+        self.net = LeNET()
         return super().on_get_model()
     def on_get_loss(self):
         self.loss = torch.nn.CrossEntropyLoss()
