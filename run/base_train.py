@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-22 22:07:17
 LastEditors: Andy
-LastEditTime: 2022-02-12 13:00:09
+LastEditTime: 2022-02-12 13:14:41
 '''
 import argparse
 import random
@@ -92,7 +92,7 @@ class base_trainer(base_runner):
         return super().on_system_start_train()
 
     def on_system_train(self):
-        for epoch in range(self.config["TRAIN_EPOCH"]):
+        for epoch in range(self.config["MAX_EPOCH"]):
             self.hook["on_start_epoch"]()
             self.hook["on_epoch"]()
             self.hook["on_end_epoch"]()
