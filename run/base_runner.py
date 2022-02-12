@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-26 12:29:37
 LastEditors: Andy
-LastEditTime: 2022-02-12 12:54:36
+LastEditTime: 2022-02-12 12:55:45
 '''
 import sys
 sys.path.append(".")
@@ -30,7 +30,7 @@ class base_runner:
             "on_user_get_model": self.on_user_get_model,
             "on_user_get_loss": self.on_user_get_loss,
             "on_user_get_oprimizer": self.on_user_get_oprimizer,
-            "on_user_get_checkpoints": self.on_user_get_checkpoints,
+            "on_user_get_checkpoint": self.on_user_get_checkpoint,
             "on_system_train": self.on_system_train,
             "on_system_end_train": self.on_system_end_train,
             # epoch
@@ -181,5 +181,5 @@ class base_runner:
         pass
 
     
-    def on_user_save_checkpoints(self):
+    def on_user_save_checkpoint(self):
         pass

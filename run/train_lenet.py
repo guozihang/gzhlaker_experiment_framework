@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-12 12:40:58
+LastEditTime: 2022-02-12 12:55:52
 '''
 
 import sys
@@ -104,7 +104,7 @@ class train_lenet(base_trainer):
     def on_user_calculate_matric(self):
         return super().on_calculate_matric()
     
-    def on_user_save_checkpoints(self):
+    def on_user_save_checkpoint(self):
         dict = {}
         if(type(self.net) == torch.nn.Module): 
             dict["model_state_dict"] = self.net.state_dict()
