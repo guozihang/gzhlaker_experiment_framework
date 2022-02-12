@@ -93,9 +93,9 @@ class base_trainer(base_runner):
 
     def on_system_train(self):
         for epoch in range(self.config["MAX_EPOCH"]):
-            self.hook["on_start_epoch"]()
-            self.hook["on_epoch"]()
-            self.hook["on_end_epoch"]()
+            self.hook["on_system_start_epoch"]()
+            self.hook["on_user_epoch"]()
+            self.hook["on_system_end_epoch"]()
             self.state["epoch"] = epoch
             
     def on_system_end_train(self):
