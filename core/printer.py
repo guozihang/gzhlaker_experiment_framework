@@ -56,9 +56,10 @@ class Printer:
 
     @staticmethod
     def function_log(func, str):
+        Printer.log.info(str)
         @functools.wraps(func)
         def wrapper(*args, **kward):
-            Printer.log.info(str)
+            
             return func(*args, **kward)
         return wrapper
     @staticmethod
