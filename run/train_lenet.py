@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-12 00:28:52
+LastEditTime: 2022-02-12 12:40:58
 '''
 
 import sys
@@ -23,11 +23,8 @@ class train_lenet(base_trainer):
     def __init__(self):
         super().__init__()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    def on_get_config(self):
-        self.config = Util.get_yaml_data("./config/LENET_TRAINER.yml")
-        Printer.log.info(self.config)
-        return super().on_get_config()
-    def on_get_dataset(self):
+    
+    def on_user_get_dataset(self):
         trans = transforms.ToTensor()
         self.mnist_test = torchvision.datasets.FashionMNIST(
             root="./data",
@@ -44,14 +41,14 @@ class train_lenet(base_trainer):
         )
         return super().on_get_dataset()
     
-    def on_get_dataLoader(self):
-        self.train_iter = DataLoader(
+    def on_user_get_dataLoader(self):
+        self.state["train_iter"] = DataLoader(
             self.mnist_train, 
             batch_size= self.config["BATCH_SIZE"],
             shuffle = True,
             num_workers = 12
         )
-        self.test_iter = DataLoader(
+        self.state["test_iter"] = DataLoader(
             self.mnist_train, 
             batch_size= self.config["BATCH_SIZE"],
             shuffle = True,
@@ -59,35 +56,28 @@ class train_lenet(base_trainer):
         )
         return super().on_get_dataLoader()
     
-    def on_get_model(self):
-        self.net = LeNET()
+    def on_user_get_model(self):
+        self.state["net"] = LeNET()
         return super().on_get_model()
 
-    def on_get_loss(self):
-        self.loss = torch.nn.CrossEntropyLoss()
+    def on_user_get_loss(self):
+        self.state["loss"] = torch.nn.CrossEntropyLoss()
         return super().on_get_loss()
         
-    def on_get_oprimizer(self):
-        self.oprimizer = torch.optim.SGD(self.net.parameters(), lr = self.config["LR"])
+    def on_user_get_oprimizer(self):
+        self.state["oprimizer"] = torch.optim.SGD(self.net.parameters(), lr = self.config["LR"])
         return super().on_get_oprimizer()
     
-    def on_update_parameter(self):
-        return super().on_update_parameter()
-    
-    def on_train(self):
-        for epoch in range(self.config["TRAIN_EPOCH"]):
-            self.hook["on_start_epoch"]()
-            self.hook["on_epoch"](epoch)
-            self.hook["on_end_epoch"]()
-    
-    def on_end_train(self):
-        return super().on_end_train()
-    
-    def on_set_grad(self):
+
+    def on_user_set_grad(self):
         self.oprimizer.zero_grad()
         return super().on_set_grad() 
 
-    def on_epoch(self, epoch):
+    def on_user_update_parameter(self):
+        return super().on_update_parameter()
+    
+
+    def on_user_epoch(self, epoch):
         j = 0
         for i, (X, Y) in enumerate(self.train_iter):
             j += 1
@@ -104,15 +94,24 @@ class train_lenet(base_trainer):
                 Printer.update_progressor_without_progress(name="[red]Epoch {}...".format(epoch), advance=1)
         
     
-    def on_valid(self):
+    def on_user_valid(self):
         self.net.eval()
         for X, y in self.train_iter:
             X = X.to(self.device)
             y = y.to(self.device)
             
 
-    def on_calculate_matric(self):
+    def on_user_calculate_matric(self):
         return super().on_calculate_matric()
+    
+    def on_user_save_checkpoints(self):
+        dict = {}
+        if(type(self.net) == torch.nn.Module): 
+            dict["model_state_dict"] = self.net.state_dict()
+        if(type(self.oprimizer) == torch.optim.Optimizer):
+            dict["optimizer_state_dict"] = self.oprimizer.state_dict()
+        torch.save(dict,  "./result/{}/{}".format(Printer.timestr, Printer.timestr))
+        return super().on_save_checkpoints()
     
 if __name__ == "__main__":
     trainer = train_lenet()

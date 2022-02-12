@@ -4,13 +4,13 @@ version:
 Author: Gzhlaker
 Date: 2022-01-25 19:36:59
 LastEditors: Andy
-LastEditTime: 2022-02-12 00:22:19
+LastEditTime: 2022-02-12 11:40:42
 '''
 import functools
 import os
 import sys
 import time
-sys.path.append(".")
+
 from rich.panel import Panel
 from rich.progress import Progress
 from rich.console import Console
@@ -58,7 +58,7 @@ class Printer:
     def function_log(func, str):
         @functools.wraps(func)
         def wrapper(*args, **kward):
-            Printer.log.info    (str)
+            Printer.log.info(str)
             return func(*args, **kward)
         return wrapper
     @staticmethod

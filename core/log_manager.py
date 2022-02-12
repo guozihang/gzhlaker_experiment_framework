@@ -10,6 +10,7 @@ import logging
 from rich.logging import RichHandler
 from rich.console import Console
 class log_manager:
+    '''this is a static method, '''
     @staticmethod
     def get_logger(filename):
         FORMAT = "%(message)s"

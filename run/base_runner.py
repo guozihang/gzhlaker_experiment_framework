@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-26 12:29:37
 LastEditors: Andy
-LastEditTime: 2022-02-12 00:23:39
+LastEditTime: 2022-02-12 12:41:39
 '''
 import sys
 sys.path.append(".")
@@ -15,144 +15,171 @@ class base_runner:
         self._init_hook()
         self._init_state()
         self._init_config()
-
+    
+    @Printer.function_log("init hook function")
     def _init_hook(self):
         self.hook = {
-            "on_init": self.on_init,
-            "on_parse_argument": self.on_parse_argument,
-            "on_get_config": self.on_get_config,
-            "on_get_dataset": self.on_get_dataset,
-            "on_get_dataLoader": self.on_get_dataLoader,
-            "on_get_model": self.on_get_model,
-            "on_get_loss": self.on_get_loss,
-            "on_get_oprimizer": self.on_get_oprimizer,
-            # train
-            "on_start_train": self.on_start_train,
-            "on_train": self.on_train,
-            "on_end_train": self.on_end_train,
-            # epoch
-            "on_start_epoch": self.on_start_epoch,
-            "on_epoch": self.on_epoch,
-            "on_end_epoch": self.on_end_epoch,
-            #
-            "on_set_grad": self.on_set_grad,
-            "on_calculate_loss": self.on_calculate_loss,
-            "on_calculate_back_grad": self.on_calculate_back_grad,
-            "on_update_parameter": self.on_update_parameter,
-            "on_calculate_matric": self.on_calculate_matric,
-            # valid
-            "on_start_valid": self.on_start_valid,
-            "on_valid": self.on_valid,
-            "on_end_valid": self.on_end_valid,
-            # test
-            "on_start_test": None,
-            "on_test": None,
-            "on_end_test": None,
-            "on_save_checkpoints": self.on_save_checkpoints
+            "on_system_get_argument": self.on_system_get_argument,
+            "on_system_config": self.on_system_config,
+            "on_system_init": self.on_system_init,
             
+            # train
+            "on_system_start_train": self.on_system_start_train,
+            "on_user_get_dataset": self.on_user_get_dataset,
+            "on_user_get_dataLoader": self.on_user_get_dataLoader,
+            "on_user_get_model": self.on_user_get_model,
+            "on_user_get_loss": self.on_user_get_loss,
+            "on_user_get_oprimizer": self.on_user_get_oprimizer,
+            "on_user_get_checkpoints": self.on_user_get_checkpoints,
+            "on_system_train": self.on_system_train,
+            "on_system_end_train": self.on_system_end_train,
+            # epoch
+            "on_system_start_epoch": self.on_system_start_epoch,
+            "on_user_epoch": self.on_user_epoch,
+            "on_system_end_epoch": self.on_system_end_epoch,
+            # details
+            "on_user_set_grad": self.on_user_set_grad,
+            "on_user_calculate_loss": self.on_user_calculate_loss,
+            "on_user_calculate_back_grad": self.on_user_calculate_back_grad,
+            "on_user_update_parameter": self.on_user_update_parameter,
+            "on_user_calculate_matric": self.on_user_calculate_matric,
+            "on_user_save_checkpoint": self.on_user_save_checkpoint,   
+            # valid
+            "on_system_start_valid": self.on_system_start_valid,
+            "on_user_valid": self.on_user_valid,
+            "on_system_end_valid": self.on_system_end_valid,
+            # test
+            "on_user_start_test": None,
+            "on_user_test": None,
+            "on_user_end_test": None,
         }
     
+    @Printer.function_log("init runner state")
     def _init_state(self):
         self.state = {
             "train_model": None,
             "valid_model": None,
             "train_iter": None,
             "valid_iter": None,
+            "epoch": None,
+            "max_epoch": None
         }
+
+    @Printer.function_log("init config state")
     def _init_config(self):
         self.config = {}
 
+    
     @Printer.function_name
-    def on_init(self):
+    def on_system_init(self):
+        '''init '''
         pass
 
     @Printer.function_name
-    def on_parse_argument(self):
+    def on_system_get_argument(self):
+        '''parse argument from console'''
         pass
 
     @Printer.function_name
-    def on_get_config(self):
+    def on_system_config(self):
+        '''parse config file'''
         pass
 
     @Printer.function_name
-    def on_get_dataset(self):
+    def on_user_get_dataset(self):
+        '''create dataset object'''
         pass
 
     @Printer.function_name
-    def on_get_dataLoader(self):
+    def on_user_get_dataLoader(self):
+        '''create dataloader object'''
         pass
 
     @Printer.function_name
-    def on_get_model(self):
+    def on_user_get_model(self):
+        '''create model object'''
         pass
 
     @Printer.function_name
-    def on_get_loss(self):
+    def on_user_get_loss(self):
+        '''get loss function object'''
         pass
 
     @Printer.function_name
-    def on_get_oprimizer(self):
+    def on_user_get_oprimizer(self):
+        '''get oprimizer object'''
         pass
 
     @Printer.function_name
-    def on_start_train(self):
+    def on_user_get_checkpoint(self):
         pass
     
     @Printer.function_name
-    def on_start_train(self):
+    def on_system_start_train(self):
         pass
-
-    def on_train(self):
+    
+    @Printer.function_name
+    def on_system_start_train(self):
         pass
 
     @Printer.function_name
-    def on_end_train(self):
-        pass
-
-    # @Printer.function_name
-    def on_start_epoch(self):
+    def on_system_train(self):
         pass
 
     @Printer.function_name
-    def on_epoch(self):
+    def on_system_end_train(self):
         pass
 
     # @Printer.function_name
-    def on_end_epoch(self):
+    def on_system_start_epoch(self):
         pass
 
     # @Printer.function_name
-    def on_start_valid(self):
+    def on_user_epoch(self):
         pass
 
-    def on_valid(self):
-        pass
     # @Printer.function_name
-    def on_end_valid(self):
+    def on_system_end_epoch(self):
         pass
 
     @Printer.function_name
-    def on_start_valid_epoch(self):
+    def on_system_start_valid(self):
+        pass
+
+    def on_user_valid(self):
+        pass
+    @Printer.function_name
+    def on_system_end_valid(self):
         pass
 
     @Printer.function_name
-    def on_end_valid_epoch(self):
+    def on_user_start_valid_epoch(self):
         pass
 
-    def on_set_grad(self):
+    @Printer.function_name
+    def on_user_end_valid_epoch(self):
         pass
 
-    def on_calculate_loss(self):
+    @Printer.function_name
+    def on_user_set_grad(self):
         pass
 
-    def on_calculate_back_grad(self):
+    @Printer.function_name
+    def on_user_calculate_loss(self):
         pass
 
-    def on_update_parameter(self):
+    @Printer.function_name
+    def on_user_calculate_back_grad(self):
         pass
 
-    def on_calculate_matric(self):
+    @Printer.function_name
+    def on_user_update_parameter(self):
         pass
 
-    def on_save_checkpoints(self):
+    @Printer.function_name
+    def on_user_calculate_matric(self):
+        pass
+
+    
+    def on_user_save_checkpoints(self):
         pass
