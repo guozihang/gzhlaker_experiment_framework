@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-22 22:07:17
 LastEditors: Andy
-LastEditTime: 2022-02-12 12:42:22
+LastEditTime: 2022-02-12 13:00:09
 '''
 import argparse
 import random
@@ -45,12 +45,12 @@ class base_trainer(base_runner):
         for key in list(vars(self.args).keys()):
             Printer.print_log("-- {}: {}".format(key, vars(self.args)[key]))
             self.config[key] = vars(self.args)[key]
-        return super().on_parse_argument()
+        return super().on_system_get_argument()
     
     def on_system_get_config(self):
         self.config = Util.get_yaml_data(self.config["config"])
         Printer.log.info(self.config)
-        return super().on_get_config()
+        return super().on_system_get_config()
 
     def on_system_init(self):
         self._on_init_random()
