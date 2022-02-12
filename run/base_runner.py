@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-26 12:29:37
 LastEditors: Andy
-LastEditTime: 2022-02-12 12:55:45
+LastEditTime: 2022-02-12 13:04:32
 '''
 import sys
 sys.path.append(".")
@@ -20,7 +20,7 @@ class base_runner:
     def _init_hook(self):
         self.hook = {
             "on_system_get_argument": self.on_system_get_argument,
-            "on_system_config": self.on_system_config,
+            "on_system_get_config": self.on_system_get_config,
             "on_system_init": self.on_system_init,
             
             # train
@@ -81,7 +81,7 @@ class base_runner:
         pass
 
     @Printer.function_name
-    def on_system_config(self):
+    def on_system_get_config(self):
         '''parse config file'''
         pass
 
