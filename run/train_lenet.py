@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-02-11 16:03:06
 LastEditors: Andy
-LastEditTime: 2022-02-12 13:11:30
+LastEditTime: 2022-02-12 13:19:27
 '''
 
 import sys
@@ -77,12 +77,12 @@ class train_lenet(base_trainer):
         return super().on_user_update_parameter()
     
 
-    def on_user_epoch(self, epoch):
+    def on_user_epoch(self):
         j = 0
         for i, (X, Y) in enumerate(self.state["train_iter"]):
             j += 1
-        Printer.create_progressor(name="[red]Epoch {}...".format(epoch), total = j)
-        with Printer.get_progressor(name="[red]Epoch {}...".format(epoch)):
+        Printer.create_progressor(name="[red]Epoch {}...".format(self.state["epoch"]), total = j)
+        with Printer.get_progressor(name="[red]Epoch {}...".format(self.state["epoch"])):
             for i, (X, y) in enumerate(self.state["train_iter"]):
                 self.state["oprimizer"].zero_grad()
                 self.state["net"].to(self.device)
