@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-25 19:36:59
 LastEditors: Andy
-LastEditTime: 2022-02-12 11:40:42
+LastEditTime: 2022-02-12 12:54:14
 '''
 import functools
 import os
@@ -56,10 +56,9 @@ class Printer:
 
     @staticmethod
     def function_log(func, str):
-        Printer.log.info(str)
         @functools.wraps(func)
         def wrapper(*args, **kward):
-            
+            Printer.log.info(str)
             return func(*args, **kward)
         return wrapper
     @staticmethod

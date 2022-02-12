@@ -4,7 +4,7 @@ version:
 Author: Gzhlaker
 Date: 2022-01-26 12:29:37
 LastEditors: Andy
-LastEditTime: 2022-02-12 12:41:39
+LastEditTime: 2022-02-12 12:54:36
 '''
 import sys
 sys.path.append(".")
@@ -16,7 +16,7 @@ class base_runner:
         self._init_state()
         self._init_config()
     
-    @Printer.function_log("init hook function")
+    @Printer.function_name
     def _init_hook(self):
         self.hook = {
             "on_system_get_argument": self.on_system_get_argument,
@@ -54,7 +54,7 @@ class base_runner:
             "on_user_end_test": None,
         }
     
-    @Printer.function_log("init runner state")
+    @Printer.function_name
     def _init_state(self):
         self.state = {
             "train_model": None,
@@ -65,7 +65,7 @@ class base_runner:
             "max_epoch": None
         }
 
-    @Printer.function_log("init config state")
+    @Printer.function_name
     def _init_config(self):
         self.config = {}
 
