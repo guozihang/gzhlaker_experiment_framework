@@ -15,41 +15,47 @@ from rich.progress import Progress
 from rich.console import Console
 from rich.pretty import Pretty
 from rich.traceback import install
+from rich.rule import Rule
 from core.manager.log_manager import log_manager
-
+from core.manager.path_manager import PathManager
 install(show_locals=False)
-
-if os.path.exists("./result") == False:
-    os.mkdir(os.getcwd() + "/result")
-timestr = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
-os.mkdir(os.getcwd() + "/result/" + timestr)
 
 
 class Printer:
-    '''
+    """
     rich-base logger
-    '''
-    timestr = timestr
-    log = log_manager.get_logger("./result/{}/{}.txt".format(timestr, timestr))
-    console = Console(color_system='auto')
+    """
+    log = log_manager.get_logger()
+    console = Console(
+        color_system='auto',
+        log_time_format="[%Y-%m-%d %H:%M:%S]"
+    )
+
     progress_list = {}
 
     @staticmethod
     def print_title(data: str) -> None:
-        Printer.console.print(data, justify='center')
+        Printer.print_log(data, justify='center')
 
     @staticmethod
     def print_panle(str, title="None") -> None:
         pretty = Pretty(str)
-        Printer.console.print(Panel(pretty, title=title))
+        Printer.print_log(Panel(pretty, title=title))
 
     @staticmethod
-    def print_rule(data: str) -> None:
-        Printer.console.rule(data)
+    def print_rule(data: str, characters="*") -> None:
+        Printer.print_log(Rule(data, characters=characters))
 
     @staticmethod
-    def print_log(str) -> None:
-        Printer.log.info(str)
+    def print_log(data) -> None:
+        Printer.console.log(data)
+        with open(os.path.join(PathManager.get_log_path(), "train.log"), "a") as report_file:
+            _console = Console(
+                color_system='auto',
+                file=report_file,
+                log_time_format="[%Y-%m-%d %H:%M:%S]"
+            )
+            _console.log(data)
 
     @staticmethod
     def function_name(func):
@@ -64,7 +70,7 @@ class Printer:
     def function_log(func, str):
         @functools.wraps(func)
         def wrapper(*args, **kward):
-            Printer.log.info(str)
+            Printer.print_log(str)
             return func(*args, **kward)
 
         return wrapper

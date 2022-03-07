@@ -8,13 +8,14 @@ LastEditTime: 2022-02-12 11:59:23
 """
 # import torch.cuda
 import json
+import os
+import time
 from functools import partial
 
 import PIL
 import numpy
 import numpy as np
 import torch
-import torchvision.transforms.functional
 import yaml
 from PIL import Image
 from numpy import ndarray, inf
@@ -22,7 +23,7 @@ from torch.optim import Optimizer
 
 
 class Util:
-    '''this is a static class, hold some useful method'''
+    """this is a static class, hold some useful method"""
 
     @staticmethod
     def get_yaml_data(filename: str) -> dict:
@@ -83,6 +84,8 @@ class Util:
     @staticmethod
     def to_tensor(object, div=False):
         pass
+
+
 
 
 def narray_to_torch_tensor(narray):

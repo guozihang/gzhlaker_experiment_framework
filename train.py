@@ -8,7 +8,7 @@
 ------------      -------    --------    -----------
 2022/2/20 10:58 AM   Gzhlaker      1.0         None
 """
-
+import os
 import sys
 
 import wandb
@@ -18,8 +18,10 @@ from torch import optim
 from torch.utils.data import DataLoader
 from rich.progress import track
 from rich.traceback import install
+from tqdm import tqdm
 
 from core.augementation.other_augmentation import OtherAugmentation
+from core.manager.path_manager import PathManager
 from core.manager.printer import Printer
 from core.models.image_clip import ImageCLIP
 from core.models.text_clip import TextCLIP
@@ -89,7 +91,6 @@ class ActionClipTrainer(BaseTrainer):
             shuffle=True,
             pin_memory=False,
             drop_last=True,
-            # collate_fn=self._get_collate_fn()
         )
         self.state["val_loader"] = DataLoader(
             self.state["val_dataset"],
@@ -125,8 +126,11 @@ class ActionClipTrainer(BaseTrainer):
             emb_dropout=self.config["network"]["emb_dropout"],
             pretrain=self.config["network"]["init"],
         )
-        self.state["fusion_model"] = VisualPrompt(self.config["network"]["sim_header"], self.state["clip_state_dict"],
-                                                  self.config["data"]["num_segments"])
+        self.state["fusion_model"] = VisualPrompt(
+            self.config["network"]["sim_header"],
+            self.state["clip_state_dict"],
+            self.config["data"]["num_segments"]
+        )
         self.state["model_text"] = TextCLIP(self.state["model"])
         self.state["model_image"] = ImageCLIP(self.state["model"])
         self.state["model_text"] = torch.nn.DataParallel(self.state["model_text"]).cuda()
@@ -168,7 +172,7 @@ class ActionClipTrainer(BaseTrainer):
             betas=(0.9, 0.98),
             eps=1e-8,
             weight_decay=0.2
-        )  # Params used from paper, the lr is smaller, more safe for fine tuning to new dataset
+        )  # Params used from paper, the lr is smaller, more safe for fine-tuning to new dataset
         Printer.print_log('Using Adam optimizer')
 
     def _get_sgd_optimizer(self):
@@ -207,7 +211,7 @@ class ActionClipTrainer(BaseTrainer):
             lr=self.config["solver"]["lr"],
             eps=1e-8,
             weight_decay=self.config['solver']["weight_decay"]
-        )  # Params used from paper, the lr is smaller, more safe for fine tuning to new dataset
+        )  # Params used from paper, the lr is smaller, more safe for fine-tuning to new dataset
         for param_group in self.state["optimizer"].param_groups:
             print(param_group['lr'])
         Printer.print_log('Using Adamw optimizer')
@@ -254,12 +258,12 @@ class ActionClipTrainer(BaseTrainer):
         return super().on_user_update_parameter()
 
     def on_user_epoch(self):
+        Printer.print_rule("epoch {}".format(self.state["epoch"]), characters="-")
         self.state["model_image"].train()
         self.state["model_text"].train()
         self.state["fusion_model"].train()
-        for batch_index, (images, list_id) in enumerate(
-                # 准备参数
-                track(self.state["train_loader"], description="on epoch {}".format(self.state["epoch"]))):
+        for batch_index, (images, list_id) in enumerate(tqdm(self.state["train_loader"], desc="on epoch {}".format(self.state["epoch"]))):
+            # 准备参数
             classes = self.state["classes"]
             num_text_aug = self.state["num_text_aug"]
             text_dict = self.state["text_dict"]
@@ -275,7 +279,8 @@ class ActionClipTrainer(BaseTrainer):
             texts = torch.stack([text_dict[j][i, :] for i, j in zip(range(len(list_id)), text_id)])
 
             images = images.to(self.state["device"]).view(-1, c, h,
-                                                          w)  # omit the Image.fromarray if the images already in PIL format, change this line to images=list_image if using preprocess inside the dataset class
+                                                          w)  # omit the Image.fromarray if the images already in PIL
+            # format, change this line to images=list_image if using preprocess inside the dataset class
             texts = texts.to(self.state["device"])
 
             image_embedding = self.state["model_image"](images)
@@ -296,10 +301,11 @@ class ActionClipTrainer(BaseTrainer):
             loss_images = self.state["loss_img"](logits_per_image, ground_truth)
             loss_texts = self.state["loss_txt"](logits_per_text, ground_truth)
             total_loss = (loss_images + loss_texts) / 2
-            # wandb.log({"train_total_loss": total_loss})
-            # wandb.log({"train_loss_imgs": loss_images})
-            # wandb.log({"train_loss_texts": loss_texts})
-            # wandb.log({"lr": self.state["optimizer"].param_groups[0]['lr']})
+            if self.config["wandb"]:
+                wandb.log({"train_total_loss": total_loss})
+                wandb.log({"train_loss_imgs": loss_images})
+                wandb.log({"train_loss_texts": loss_texts})
+                wandb.log({"lr": self.state["optimizer"].param_groups[0]['lr']})
 
             # 反向传播
             total_loss.backward()
@@ -316,72 +322,74 @@ class ActionClipTrainer(BaseTrainer):
                     self.state["lr_scheduler"].step(self.state["epoch"] + batch_index / len(self.state["train_loader"]))
 
     def on_user_valid(self):
-        if self.state["epoch"] % self.config["logging"]["eval_freq"] == 0:  # and epoch>0
+        if self.state["epoch"] % self.config["logging"]["eval_freq"] == 0:
+
+            # set mode
             self.state["model"].eval()
             self.state["fusion_model"].eval()
 
-        with torch.no_grad():
-            torch.cuda.empty_cache()
-            classes, num_text_aug, text_dict = TextPrompt()(self.state["val_dataset"])
-            num = 0
-            corr_1 = 0
-            corr_5 = 0
-            splits = len(classes) // 100 + 1
-            tops = [[], []]
-            for iii, (image, class_id) in enumerate(track(self.state["val_loader"])):
-                image = image.view((-1, self.config["data"]["num_segments"], 3) + image.size()[-2:])
-                b, t, c, h, w = image.size()
-                image_input = image.to(self.state["device"]).view(-1, c, h, w)
+            # valid
+            with torch.no_grad():
+                torch.cuda.empty_cache()
+                classes, num_text_aug, text_dict = TextPrompt()(self.state["val_dataset"])
+                num = 0
+                corr_1 = 0
+                corr_5 = 0
+                splits = len(classes) // 100 + 1
+                # tops = [[], []]
+                for iii, (image, class_id) in enumerate(track(self.state["val_loader"])):
+                    image = image.view((-1, self.config["data"]["num_segments"], 3) + image.size()[-2:])
+                    b, t, c, h, w = image.size()
+                    image_input = image.to(self.state["device"]).view(-1, c, h, w)
 
-                image_features = self.state["model"].encode_image(image_input).view(b, t, -1)
-                image_features = self.state["fusion_model"](image_features)
-                image_features /= image_features.norm(dim=-1, keepdim=True)
-                similarity = None
-                for _index in range(splits):
-                    if _index < splits:
-                        _classes = classes[_index * 100: (_index + 1) * 100, :]
-                    elif _index == splits:
-                        _classes = classes[_index * 100:, :]
-                    text_inputs = _classes.to(self.state["device"])
-                    text_features = self.state["model"].encode_text(text_inputs)
-                    text_features /= text_features.norm(dim=-1, keepdim=True)
-                    if similarity is None:
-                        similarity = (100.0 * image_features @ text_features.T)
-                    else:
-                        similarity = torch.cat([similarity, 100.0 * image_features @ text_features.T], 1)
+                    image_features = self.state["model"].encode_image(image_input).view(b, t, -1)
+                    image_features = self.state["fusion_model"](image_features)
+                    image_features /= image_features.norm(dim=-1, keepdim=True)
+                    similarity = None
+                    for _index in range(splits):
+                        if _index < splits:
+                            _classes = classes[_index * 100: (_index + 1) * 100, :]
+                        elif _index == splits:
+                            _classes = classes[_index * 100:, :]
+                        text_inputs = _classes.to(self.state["device"])
+                        text_features = self.state["model"].encode_text(text_inputs)
+                        text_features /= text_features.norm(dim=-1, keepdim=True)
+                        if similarity is None:
+                            similarity = (100.0 * image_features @ text_features.T)
+                        else:
+                            similarity = torch.cat([similarity, 100.0 * image_features @ text_features.T], 1)
 
-                similarity = similarity.view(b, num_text_aug, -1).softmax(dim=-1)
-                similarity = similarity.mean(dim=1, keepdim=False)
-                values_1, indices_1 = similarity.topk(1, dim=-1)
-                values_5, indices_5 = similarity.topk(5, dim=-1)
-                num += b
-                for i in range(b):
-                    if list(self.state["val_dataset"].sentences.keys())[indices_1[i]] == class_id[i]:
-                        Printer.print_log(
-                            "{}\n{}".format(list(self.state["val_dataset"].sentences.keys())[indices_1[i]],
-                                            class_id[i]))
-                        corr_1 += 1
-                    if class_id[i] in [list(self.state["val_dataset"].sentences.keys())[_i] for _i in
-                                       indices_5[i]]:
-                        corr_5 += 1
+                    similarity = similarity.view(b, num_text_aug, -1).softmax(dim=-1)
+                    similarity = similarity.mean(dim=1, keepdim=False)
+                    values_1, indices_1 = similarity.topk(1, dim=-1)
+                    values_5, indices_5 = similarity.topk(5, dim=-1)
+                    num += b
+                    for i in range(b):
+                        if list(self.state["val_dataset"].sentences.keys())[indices_1[i]] == class_id[i]:
+                            Printer.print_log(
+                                "{}\n{}".format(list(self.state["val_dataset"].sentences.keys())[indices_1[i]],
+                                                class_id[i]))
+                            corr_1 += 1
+                        if class_id[i] in [list(self.state["val_dataset"].sentences.keys())[_i] for _i in
+                                           indices_5[i]]:
+                            corr_5 += 1
 
-        top1 = float(corr_1) / num * 100
-        top5 = float(corr_5) / num * 100
-            # wandb.log({"top1": top1})
-            # wandb.log({"top5": top5})
-        print(
-                'Epoch: [{}/{}]: Top1: {}, Top5: {}'.format(self.state["epoch"], self.config["solver"]["epochs"], top1,
-                                                            top5))
-        # self.state["is_best"] = top1 > best_prec1
-        # best_prec1 = max(top1, best_prec1)
-        print('Testing: {}/'.format(top1))
+            top1 = float(corr_1) / num * 100
+            top5 = float(corr_5) / num * 100
 
-        # epoch_saving(epoch, model, fusion_model, optimizer, filename)
-        # if is_best:
-        #     best_saving(working_dir, epoch, model, fusion_model, optimizer)
+            # log
+            Printer.print_panle(
+                {
+                    "top1": top1,
+                    "top5": top5
+                },
+                "Epoch {}".format(self.state["epoch"])
+            )
 
-    def on_user_calculate_matric(self):
-        return super().on_user_calculate_matric()
+            # wandb log
+            if self.config["wandb"]:
+                wandb.log({"top1": top1})
+                wandb.log({"top5": top5})
 
     def on_user_save_checkpoint(self):
         Printer.print_rule('Saving')
@@ -403,9 +411,9 @@ class ActionClipTrainer(BaseTrainer):
                 'fusion_model_state_dict': self.state["fusion_model"].state_dict(),
                 'optimizer_state_dict': self.state["optimizer"].state_dict(),
             },
-            self.state["save_dir"] + "checkpoint_model_epoch_{}.pt".format(self.state["epoch"])
+            os.path.join(self.state["save_dir"], "checkpoint_model_epoch_{}.pt".format(self.state["epoch"]))
         )
-        return self.state["save_dir"] + "checkpoint_model_epoch_{}.pt".format(self.state["epoch"])
+        return os.path.join(self.state["save_dir"], "checkpoint_model_epoch_{}.pt".format(self.state["epoch"]))
 
     def _save_best(self):
         """
@@ -418,9 +426,10 @@ class ActionClipTrainer(BaseTrainer):
                 'fusion_model_state_dict': self.state["fusion_model"].state_dict(),
                 'optimizer_state_dict': self.state["optimizer"].state_dict(),
             },
-            self.state["save_dir"] + 'model_best.pt'
+            os.path.join(self.state["save_dir"], 'model_best.pt')
         )
-        return self.state["save_dir"] + 'model_best.pt'
+        return os.path.join(self.state["save_dir"], 'model_best.pt')
+
 
 if __name__ == "__main__":
     trainer = ActionClipTrainer()

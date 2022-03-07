@@ -16,6 +16,8 @@ import wandb
 
 import sys
 
+from core.manager.path_manager import PathManager
+
 sys.path.append("./")
 
 from core.run.base_runner import BaseRunner
@@ -43,6 +45,7 @@ class BaseTrainer(BaseRunner):
 
     def on_system_get_argument(self):
         """save all console arguments to config"""
+        super().on_system_get_argument()
         Printer.print_log("Create Parser")
         self.state["parser"] = argparse.ArgumentParser()
         Printer.print_log("Create Argument")
@@ -51,12 +54,11 @@ class BaseTrainer(BaseRunner):
         Printer.print_log("Parse Argument")
         self.state["args"] = self.state["parser"].parse_args()
         Printer.print_panle(vars(self.state["args"]), title="Args")
-        return super().on_system_get_argument()
 
     def on_system_get_config(self):
+        super().on_system_get_config()
         self.config = Util.get_yaml_data(self.state["args"].config)
         Printer.print_panle(self.config, title="Config")
-        return super().on_system_get_config()
 
     def on_system_init(self):
         self._on_init_random()
@@ -88,7 +90,7 @@ class BaseTrainer(BaseRunner):
         self.state["max_epoch"] = self.config["solver"]["epochs"]
 
     def _on_init_path(self):
-        self.state["save_dir"] = os.path.join(os.getcwd(), "result", Printer.timestr)
+        self.state["save_dir"] = PathManager.get_log_path()
         Printer.print_panle(self.state["save_dir"], title="Save Dir")
 
     def _on_init_wandb(self):
@@ -120,7 +122,7 @@ class BaseTrainer(BaseRunner):
             self.hook["on_system_start_epoch"]()
             self.hook["on_user_epoch"]()
             self.hook["on_system_end_epoch"]()
-            self._valid()
+
 
     def on_system_end_train(self):
         return super().on_system_end_train()
@@ -132,11 +134,10 @@ class BaseTrainer(BaseRunner):
         self.hook["on_user_update_parameter"]()
 
     def on_system_end_epoch(self):
-
-        self.hook["on_user_calculate_matric"]()
+        self._valid()
 
     def _valid(self):
-        Printer.print_rule("Validing...")
+        Printer.print_rule("Validating...")
         self.hook["on_system_start_valid"]()
         self.hook["on_user_valid"]()
         self.hook["on_system_end_valid"]()

@@ -52,3 +52,12 @@ logging:
     print_freq: 10
     eval_freq: 1
 wandb: False
+trainer:
+    start_epoch: 0
+    max_epoch: 50
+    save_train_model_frequent: 1
+    save_val_model_frequent: 1
+dataset:
+    name:
+dataloader:
+

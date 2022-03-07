@@ -22,26 +22,26 @@ class BaseRunner:
     def _init_hook(self):
         """create all hooks"""
         self.hook = {
-            "on_system_get_argument": self.on_system_get_argument,
-            "on_system_get_config": self.on_system_get_config,
-            "on_system_init": self.on_system_init,
+            "on_system_get_argument": self.on_system_get_argument,      # 获取命令行参数
+            "on_system_get_config": self.on_system_get_config,          # 获取具体的配置
+            "on_system_init": self.on_system_init,                      # 系统的初始化
 
             # train
-            "on_system_start_train": self.on_system_start_train,
-            "on_user_get_dataset": self.on_user_get_dataset,
-            "on_user_get_dataLoader": self.on_user_get_dataLoader,
-            "on_user_get_model": self.on_user_get_model,
-            "on_user_get_loss": self.on_user_get_loss,
-            "on_user_get_optimizer": self.on_user_get_optimizer,
-            "on_user_get_lr_scheduler": self.on_user_get_lr_scheduler,
-            "on_user_get_checkpoint": self.on_user_get_checkpoint,
+            "on_system_start_train": self.on_system_start_train,        # 训练前的准备
+            "on_user_get_dataset": self.on_user_get_dataset,            # 准备数据集
+            "on_user_get_dataLoader": self.on_user_get_dataLoader,      # 准备加载器
+            "on_user_get_model": self.on_user_get_model,                # 获取模型
+            "on_user_get_loss": self.on_user_get_loss,                  # 获取损失函数
+            "on_user_get_optimizer": self.on_user_get_optimizer,        # 获取优化器
+            "on_user_get_lr_scheduler": self.on_user_get_lr_scheduler,  # 获取学习率
+            "on_user_get_checkpoint": self.on_user_get_checkpoint,      # 获取加载点
             "on_user_get_start_epoch": self.on_user_get_start_epoch,
-            "on_system_train": self.on_system_train,
-            "on_system_end_train": self.on_system_end_train,
+            "on_system_train": self.on_system_train,                    # 训练
+            "on_system_end_train": self.on_system_end_train,            # 训练后的处理
             # epoch
-            "on_system_start_epoch": self.on_system_start_epoch,
-            "on_user_epoch": self.on_user_epoch,
-            "on_system_end_epoch": self.on_system_end_epoch,
+            "on_system_start_epoch": self.on_system_start_epoch,        # 每一个 epoch 开始前的准备
+            "on_user_epoch": self.on_user_epoch,                        # 训练一次
+            "on_system_end_epoch": self.on_system_end_epoch,            # 训练一次后
             # details
             "on_user_set_grad": self.on_user_set_grad,
             "on_user_calculate_loss": self.on_user_calculate_loss,
@@ -50,9 +50,9 @@ class BaseRunner:
             "on_user_calculate_matric": self.on_user_calculate_matric,
             "on_user_save_checkpoint": self.on_user_save_checkpoint,
             # valid
-            "on_system_start_valid": self.on_system_start_valid,
-            "on_user_valid": self.on_user_valid,
-            "on_system_end_valid": self.on_system_end_valid,
+            "on_system_start_valid": self.on_system_start_valid,        # 验证前的准备
+            "on_user_valid": self.on_user_valid,                        # 验证
+            "on_system_end_valid": self.on_system_end_valid,            # 验证后的处理
             # test
             "on_user_start_test": None,
             "on_user_test": None,

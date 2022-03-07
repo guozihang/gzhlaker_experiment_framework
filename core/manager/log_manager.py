@@ -7,31 +7,32 @@ LastEditors: Andy
 LastEditTime: 2022-02-11 23:22:51
 '''
 import logging
+import os
+import time
+
 from rich.logging import RichHandler
+
+from core.manager.path_manager import PathManager
 
 
 class log_manager:
     """this is a static method, """
-
     @staticmethod
-    def get_logger(filename):
-        FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    def get_logger():
+        time_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         logging.basicConfig(
             level="NOTSET",
-            format=FORMAT,
+            format=time_format,
             datefmt="[%X]",
             handlers=[
                 RichHandler(
-                    show_time = False,
+                    show_time=False,
                     show_path=False
+                ),
+                logging.FileHandler(
+                    os.path.join(PathManager.get_log_path(), "train.log")
                 )
             ]
         )
         log = logging.getLogger("rich")
-        formatter = logging.Formatter(FORMAT)
-        file_handler = logging.FileHandler(filename, "w")
-        file_handler.setLevel(logging.NOTSET)
-        file_handler.setFormatter(formatter)
-        log.addHandler(file_handler)
-
         return log
