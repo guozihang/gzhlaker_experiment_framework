@@ -6,7 +6,7 @@
 
 @Modify Time      @Author    @Version    @Desciption
 ------------      -------    --------    -----------
-2022/2/22 3:40 PM   Gzhlaker      1.0         None
+2022/2/22 3:40 PM   Gzhlaker      1.down.sh         None
 """
 from core.transfrom.group_multi_scale_group import GroupMultiScaleCrop
 from core.transfrom.group_scale import GroupScale

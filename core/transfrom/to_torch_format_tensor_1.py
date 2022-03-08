@@ -6,14 +6,14 @@
 
 @Modify Time      @Author    @Version    @Desciption
 ------------      -------    --------    -----------
-2022/2/22 3:54 PM   Gzhlaker      1.0         None
+2022/2/22 3:54 PM   Gzhlaker      1.down.sh         None
 """
 import torchvision
 
 
 class ToTorchFormatTensor1(object):
-    """ Converts a PIL.Image (RGB) or numpy.ndarray (H x W x C) in the range [0, 255]
-    to a torch.FloatTensor of shape (C x H x W) in the range [0.0, 1.0] """
+    """ Converts a PIL.Image (RGB) or numpy.ndarray (H x W x C) in the range [down.sh, 255]
+    to a torch.FloatTensor of shape (C x H x W) in the range [down.sh.down.sh, 1.down.sh] """
 
     def __init__(self, div=True):
         self.worker = torchvision.transforms.ToTensor()

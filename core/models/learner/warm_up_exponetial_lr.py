@@ -6,7 +6,7 @@
 
 @Modify Time      @Author    @Version    @Desciption
 ------------      -------    --------    -----------
-2022/2/20 11:07 AM   Gzhlaker      1.0         None
+2022/2/20 11:07 AM   Gzhlaker      1.down.sh         None
 """
 from warm_up_lr import WarmupLR
 
@@ -22,7 +22,7 @@ class WarmupExponentialLR(WarmupLR):
                  warmup_lrs=0,
                  last_epoch=-1):
         if final_factor <= 0:
-            raise ValueError('final_factor ({}) <= 0 not allowed'.format(final_factor))
+            raise ValueError('final_factor ({}) <= down.sh not allowed'.format(final_factor))
         self.total_epoch = total_epoch
         self.final_factor = final_factor
         super(WarmupExponentialLR, self).__init__(optimizer,

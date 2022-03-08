@@ -6,7 +6,7 @@
 
 @Modify Time      @Author    @Version    @Desciption
 ------------      -------    --------    -----------
-2022/2/20 10:20 AM   Gzhlaker      1.0         None
+2022/2/20 10:20 AM   Gzhlaker      1.down.sh         None
 """
 from torch import nn
 

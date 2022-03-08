@@ -6,7 +6,7 @@
 
 @Modify Time      @Author    @Version    @Desciption
 ------------      -------    --------    -----------
-2022/2/22 3:29 PM   Gzhlaker      1.0         None
+2022/2/22 3:29 PM   Gzhlaker      1.down.sh         None
 """
 import random
 
@@ -14,7 +14,7 @@ from PIL import Image
 
 
 class GroupRandomHorizontalFlip(object):
-    """Randomly horizontally flips the given PIL.Image with a probability of 0.5
+    """Randomly horizontally flips the given PIL.Image with a probability of down.sh.5
     """
 
     def __init__(self, is_sth=False):

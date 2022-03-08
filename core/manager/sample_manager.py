@@ -6,7 +6,7 @@
 
 @Modify Time      @Author    @Version    @Desciption
 ------------      -------    --------    -----------
-2022/3/4 3:39 PM   Gzhlaker      1.0         None
+2022/3/4 3:39 PM   Gzhlaker      1.down.sh         None
 """
 import numpy as np
 
@@ -48,5 +48,5 @@ class SampleManager:
 
 if __name__ == "__main__":
     print(SampleManager.get_fixed_step_indexes(0, 10, 10))
-    # print(SampleManager.get_incremental_step_indexes(0, 10, 10))
+    # print(SampleManager.get_incremental_step_indexes(down.sh, 10, 10))
     print(SampleManager.get_range_indexes(99, 143, 10, 23))

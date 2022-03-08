@@ -38,9 +38,14 @@ class Printer:
         Printer.print_log(data, justify='center')
 
     @staticmethod
+    def print_panle_no_log(str, title="None") -> None:
+        pretty = Pretty(str)
+        Printer.console.print(Panel(pretty, title=title))
+
+    @staticmethod
     def print_panle(str, title="None") -> None:
         pretty = Pretty(str)
-        Printer.print_log(Panel(pretty, title=title))
+        Printer.print(Panel(pretty, title=title))
 
     @staticmethod
     def print_rule(data: str, characters="*") -> None:
@@ -56,7 +61,9 @@ class Printer:
                 log_time_format="[%Y-%m-%d %H:%M:%S]"
             )
             _console.log(data)
-
+    @staticmethod
+    def print_log_no_log(data):
+        Printer.console.log(data)
     @staticmethod
     def function_name(func):
         @functools.wraps(func)

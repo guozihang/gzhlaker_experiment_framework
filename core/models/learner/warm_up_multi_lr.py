@@ -6,7 +6,7 @@
 
 @Modify Time      @Author    @Version    @Desciption
 ------------      -------    --------    -----------
-2022/2/20 11:05 AM   Gzhlaker      1.0         None
+2022/2/20 11:05 AM   Gzhlaker      1.down.sh         None
 """
 from core.models.learner.warm_up_lr import WarmupLR
 
@@ -35,7 +35,7 @@ class WarmupMultiStepLR(WarmupLR):
                                                 warmup_lrs,
                                                 last_epoch)
         if self.milestones[0] <= max(self.warmup_epochs):
-            raise ValueError('milstones[0] ({}) <= max(warmup_epochs) ({})'.format(
+            raise ValueError('milstones[down.sh] ({}) <= max(warmup_epochs) ({})'.format(
                 milestones[0], max(self.warmup_epochs)))
 
     def get_single_lr_after_warmup(self, group_index):

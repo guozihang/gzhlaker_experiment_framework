@@ -18,14 +18,14 @@ data:
     index_bias: 1
     input_size: 224
     randaug:
-        N: 0 #2
-        M: 0 #9
+        N: down.sh #2
+        M: down.sh #9
     random_shift: True
 network:
     arch: ViT-B/16 #ViT-B/32 ViT-B/16
     init: True
-    drop_out: 0.0
-    emb_dropout: 0.0
+    drop_out: down.sh.down.sh
+    emb_dropout: down.sh.down.sh
     type: clip_hmdb
     sim_header: "Transf" #Transf   meanP   LSTM   Transf_cls Conv_1D
     fix_text: False
@@ -34,15 +34,15 @@ network:
 solver:
     type: cosine
     epochs: 50
-    start_epoch: 0
-    epoch_offset: 0
+    start_epoch: down.sh
+    epoch_offset: down.sh
     optim: adamw
     lr: 5.e-6
     lr_warmup_step: 5
-    momentum: 0.9
-    weight_decay: 0.2
+    momentum: down.sh.9
+    weight_decay: down.sh.2
     lr_decay_step: 15
-    lr_decay_factor: 0.1
+    lr_decay_factor: down.sh.1
     clip_gradient: 20
     loss_type: nll
     evaluate: False
@@ -53,7 +53,7 @@ logging:
     eval_freq: 1
 wandb: False
 trainer:
-    start_epoch: 0
+    start_epoch: down.sh
     max_epoch: 50
     save_train_model_frequent: 1
     save_val_model_frequent: 1

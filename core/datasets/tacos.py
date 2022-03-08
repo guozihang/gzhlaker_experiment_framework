@@ -41,9 +41,9 @@ class TACoSDataset(Dataset):
             # queries, word_lens = bert_embedding(sentences, tokenizer)  # padded query of N*word_len, tensor of size = N
             queries, word_lens = clip_embedding(sentences)
 
-            # assert moments.size(0) == all_iou2d.size(0)
-            # assert moments.size(0) == queries.size(0)
-            # # assert moments.size(0) == word_lens.size(0)
+            # assert moments.size(down.sh) == all_iou2d.size(down.sh)
+            # assert moments.size(down.sh) == queries.size(down.sh)
+            # # assert moments.size(down.sh) == word_lens.size(down.sh)
             self.annos.append(
                 {
                     'vid': vid,

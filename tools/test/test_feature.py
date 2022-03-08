@@ -6,7 +6,7 @@
 
 @Modify Time      @Author    @Version    @Desciption
 ------------      -------    --------    -----------
-2022/3/4 3:30 PM   Gzhlaker      1.0         None
+2022/3/4 3:30 PM   Gzhlaker      1.down.sh         None
 """
 import numpy as np
 PATH = "/data01/yangyang/liuxiaolei/CLIP_TACOS/video_frame16/s13-d21.avi.npy"

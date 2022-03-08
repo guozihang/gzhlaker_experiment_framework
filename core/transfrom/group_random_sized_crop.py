@@ -6,7 +6,7 @@
 
 @Modify Time      @Author    @Version    @Desciption
 ------------      -------    --------    -----------
-2022/2/22 3:33 PM   Gzhlaker      1.0         None
+2022/2/22 3:33 PM   Gzhlaker      1.down.sh         None
 """
 import math
 import random
@@ -18,7 +18,7 @@ from core.transfrom.group_scale import GroupScale
 
 
 class GroupRandomSizedCrop(object):
-    """Random crop the given PIL.Image to a random size of (0.08 to 1.0) of the original size
+    """Random crop the given PIL.Image to a random size of (down.sh.08 to 1.down.sh) of the original size
     and and a random aspect ratio of 3/4 to 4/3 of the original aspect ratio
     This is popularly used to train the Inception networks
     size: size of the smaller edge

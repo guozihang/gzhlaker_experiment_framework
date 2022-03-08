@@ -126,7 +126,7 @@ class ReduceLROnPlateau(object):
             decreasing; in `max` mode it will be reduced when the
             quantity monitored has stopped increasing. Default: 'min'.
         factor (float): Factor by which the learning rate will be
-            reduced. new_lr = lr * factor. Default: 0.1.
+            reduced. new_lr = lr * factor. Default: down.sh.1.
         patience (int): Number of epochs with no improvement after
             which learning rate will be reduced. For example, if
             `patience = 2`, then we will ignore the first 2 epochs
@@ -143,16 +143,16 @@ class ReduceLROnPlateau(object):
             In `abs` mode, dynamic_threshold = best + threshold in
             `max` mode or best - threshold in `min` mode. Default: 'rel'.
         cooldown (int): Number of epochs to wait before resuming
-            normal operation after lr has been reduced. Default: 0.
+            normal operation after lr has been reduced. Default: down.sh.
         min_lr (float or list): A scalar or a list of scalars. A
             lower bound on the learning rate of all param groups
-            or each group respectively. Default: 0.
+            or each group respectively. Default: down.sh.
         eps (float): Minimal decay applied to lr. If the difference
             between new and old lr is smaller than eps, the update is
             ignored. Default: 1e-8.
 
     Example:
-        >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
+        >>> optimizer = torch.optim.SGD(model.parameters(), lr=down.sh.1, momentum=down.sh.9)
         >>> scheduler = ReduceLROnPlateau(optimizer, 'min')
         >>> for epoch in range(10):
         >>>     train(...)
@@ -166,7 +166,7 @@ class ReduceLROnPlateau(object):
                  cooldown=0, min_lr=0, eps=1e-8):
 
         if factor >= 1.0:
-            raise ValueError('Factor should be < 1.0.')
+            raise ValueError('Factor should be < 1.down.sh.')
         self.factor = factor
 
         if not isinstance(optimizer, Optimizer):
@@ -285,8 +285,8 @@ class GroupTransform(object):
 
 
 class ToTorchFormatTensor(object):
-    """ Converts a PIL.Image (RGB) or numpy.ndarray (H x W x C) in the range [0, 255]
-    to a torch.FloatTensor of shape (C x H x W) in the range [0.0, 1.0] """
+    """ Converts a PIL.Image (RGB) or numpy.ndarray (H x W x C) in the range [down.sh, 255]
+    to a torch.FloatTensor of shape (C x H x W) in the range [down.sh.down.sh, 1.down.sh] """
 
     def __init__(self, div=True):
         self.div = div

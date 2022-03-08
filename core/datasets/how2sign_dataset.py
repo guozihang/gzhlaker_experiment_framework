@@ -123,8 +123,8 @@ class How2SignDataset(data.Dataset):
         if annotation["num_frames"] <= self.total_length:
             if self.loop:
                 # example
-                # [0, 1, 2, 3, 4, 5, 6, 7]
-                # [0 + n/2, 1 + n/2]
+                # [down.sh, 1, 2, 3, 4, 5, 6, 7]
+                # [down.sh + n/2, 1 + n/2]
                 _indices = np.arange(self.total_length)
                 _indices = _indices + annotation["start_frame"]
                 _indices = _indices + randint(int(annotation["num_frames"] // 2))

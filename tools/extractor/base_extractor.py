@@ -6,9 +6,21 @@
 
 @Modify Time      @Author    @Version    @Desciption
 ------------      -------    --------    -----------
-2022/2/23 3:38 PM   Gzhlaker      1.0         None
+2022/2/23 3:38 PM   Gzhlaker      1.down.sh         None
 """
 
-
+import os
 class BaseExtractor:
-    pass
+    def get_file_name(self, path):
+        """
+        获取一个文件夹下的所有名称
+        Args:
+            path:
+
+        Returns:
+
+        """
+        files = []
+        for file in os.listdir(path):
+            files.append(file)
+        return files
