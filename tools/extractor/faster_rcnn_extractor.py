@@ -29,6 +29,7 @@ class FasterRCNNExtractor(BaseExtractor):
         self.in_path = in_path
         self.out_path = out_path
         self.files = self.get_file_name(in_path)
+        self.out_files = self.get_file_name(out_path)
         self.get_model()
         Printer.print_panle_no_log(
             {
@@ -39,26 +40,24 @@ class FasterRCNNExtractor(BaseExtractor):
         )
 
     def extract(self, file):
-        feature_list = []
         feature = self.get_video_frames(file)
-        Printer.print_log_no_log("frame count: {}".format(len(frame_list)))
         return feature
 
     def extract_all(self):
         for i in range(len(self.files)):
-            in_file = os.path.join(self.in_path, self.files[i])
-            out_file = os.path.join(self.out_path, self.files[i][:-4] + ".npy")
-            Printer.print_panle_no_log(
-                {
-                    "in": in_file,
-                    "out": out_file
-                },
-                title="file {}".format(i)
-            )
-            self.extract(in_file)
-            feature = self.extract(in_file)
-            np.save(out_file, feature)
-            del feature
+            if self.files[i][:-4] + ".npy" not in self.out_files:
+                in_file = os.path.join(self.in_path, self.files[i])
+                out_file = os.path.join(self.out_path, self.files[i][:-4] + ".npy")
+                Printer.print_panle_no_log(
+                    {
+                        "in": in_file,
+                        "out": out_file
+                    },
+                    title="file {}".format(i)
+                )
+                feature = self.extract(in_file)
+                np.save(out_file, feature.cpu().numpy())
+                del feature
 
     def get_model(self):
         """获取到与训练模型"""
