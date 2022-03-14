@@ -10,6 +10,15 @@
 """
 
 import os
+import multiprocessing
+import sys
+
+import torch
+
+sys.path.append(".")
+from core.manager.printer import Printer
+
+
 class BaseExtractor:
     def get_file_name(self, path):
         """
@@ -24,3 +33,15 @@ class BaseExtractor:
         for file in os.listdir(path):
             files.append(file)
         return files
+
+    def run(self):
+        pass
+
+    def run_multi_process(self):
+        Printer.print_panle_no_log(
+            {
+                "cpu_number": multiprocessing.cpu_count(),
+                "gpu_number": torch.cuda.device_count()
+            },
+            title="core info"
+        )

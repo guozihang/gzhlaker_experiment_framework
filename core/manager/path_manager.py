@@ -10,11 +10,17 @@
 """
 import os
 import time
+import sys
+
+sys.path.append(".")
+from core.util.util import Util
 
 
 class PathManager:
     log_path = ""
     program_path = ""
+    dataset_path = None
+    pretrained_path = None
 
     @staticmethod
     def get_log_path():
@@ -38,5 +44,29 @@ class PathManager:
             return PathManager.program_path
 
     @staticmethod
-    def get_data_path():
-        pass
+    def get_dataset_path(name: tuple):
+        if PathManager.dataset_path is None:
+            PathManager.dataset_path = Util.get_yaml_data("config/path/dataset_path.yaml")
+        _temp = PathManager.dataset_path
+        for _path in name:
+            if type(_temp) != str:
+                _temp = _temp[_path]
+        return _temp
+
+    @staticmethod
+    def get_pretrained_path(name: tuple):
+        if PathManager.pretrained_path is None:
+            PathManager.pretrained_path = Util.get_yaml_data("config/path/pretrained_path.yaml")
+        _temp = PathManager.pretrained_path
+        for _path in name:
+            if type(_temp) != str:
+                _temp = _temp[_path]
+        return _temp
+
+
+def test():
+    print(PathManager.get_dataset_path(("HOW2SIGN", "VIDEO", "RAW", "TRAIN")))
+
+
+if __name__ == "__main__":
+    test()

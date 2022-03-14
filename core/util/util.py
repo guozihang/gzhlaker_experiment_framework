@@ -9,6 +9,7 @@ LastEditTime: 2022-02-12 11:59:23
 # import torch.cuda
 import json
 import os
+import pickle
 import time
 from functools import partial
 
@@ -84,8 +85,6 @@ class Util:
     @staticmethod
     def to_tensor(object, div=False):
         pass
-
-
 
 
 def narray_to_torch_tensor(narray):
@@ -353,3 +352,55 @@ def create_logits(x1, x2, logit_scale):
 
     # shape = [global_batch_size, global_batch_size]
     return logits_per_x1, logits_per_x2
+
+
+def get_file_name(path):
+    """
+    获取一个文件夹下的所有名称
+    Args:
+        path:
+
+    Returns:
+
+    """
+    files = []
+    for file in os.listdir(path):
+        files.append(file)
+    return files
+
+
+def get_dir_name(path):
+    """
+    获取一个文件夹下的所有文件夹的名称
+    Args:
+        path:
+
+    Returns:
+    """
+    pass
+
+
+def get_split_list(data, split_num, name_template="split_{}"):
+    """
+    将一个列表拆分为 num 个平均的列表
+    Args:
+        data:
+        split_num:
+        name_template:
+
+    Returns:
+
+    """
+    _list = []
+    _num = len(data)
+    for _i in range(split_num):
+        _list.append([])
+    for _i in range(_num):
+        _j = _i % split_num
+        _list[_j].append(data[_i])
+    for _i in range(split_num):
+        with open(name_template.format(_i), mode="wb") as f:
+            pickle.dump(_list[_i], f)
+
+
+

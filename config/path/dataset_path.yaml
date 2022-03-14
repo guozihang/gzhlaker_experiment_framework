@@ -1,0 +1,88 @@
+HMDB51:
+    ANNOTATION:
+        RAW: "/data02/yangyang/guozihang/hmdb51/hmdb51_video_splits"
+    VIDEO:
+        RAW: "/data02/yangyang/guozihang/hmdb51/hmdb51_video"
+        FRAME: "/data02/yangyang/guozihang/hmdb51/hmdb51_video_frame"
+
+UCF101:
+    ANNOTATION:
+        RAW: "/data02/yangyang/guozihang/ucf101/ucf101_video_anno"
+        RECONSTRUCT: "/data02/yangyang/guozihang/ucf101/ucf101_video_anno"
+    VIDEO:
+        RAW: "/data02/yangyang/guozihang/ucf101/ucf101_video"
+        FRAME: "/data02/yangyang/guozihang/ucf101/ucf101_video_frames"
+
+KINECTICS400:
+    ANNOTATION:
+        RAW:
+    VIDEO:
+        RAW:
+
+HOW2SIGN:
+    ANNOTATION:
+        RAW:
+            TRAIN: "/data02/yangyang/guozihang/how2sign/how2sign_video_anno/train.json"
+            TEST: "/data02/yangyang/guozihang/how2sign/how2sign_video_anno/text.json"
+            VALID: "/data02/yangyang/guozihang/how2sign/how2sign_video_anno/val.json"
+    VIDEO:
+        RAW:
+            TRAIN: "/data02/yangyang/sign_dataset/train_raw_videos/raw_videos"
+            TEST: "/data02/yangyang/sign_dataset/test_raw_videos/raw_videos"
+            VAILD: "/data02/yangyang/sign_dataset/val_raw_videos/raw_videos"
+        COMPRESSED:
+            TRAIN: ""
+            TEST: ""
+            VALID: ""
+        FRAME:
+            TRAIN: "/data02/yangyang/guozihang/how2sign/how2sign_video_frame/train"
+            TEST: "/data02/yangyang/guozihang/how2sign/how2sign_video_frame/test"
+            VALID: "/data02/yangyang/guozihang/how2sign/how2sign_video_frame/val"
+        FEATURE:
+            C3D:
+                TRAIN: ""
+                TEST: ""
+                VALID: ""
+            I3D:
+                TRAIN: ""
+                TEST: ""
+                VALID: ""
+            CLIP:
+                16:
+                    TRAIN: "/data02/yangyang/guozihang/how2sign/how2sign_video_features/clip/train"
+                    TEST: "/data02/yangyang/guozihang/how2sign/how2sign_video_features/clip/test"
+                    VALID: "/data02/yangyang/guozihang/how2sign/how2sign_video_features/clip/val"
+            BLIP:
+                TRAIN: ""
+                TEST: ""
+                VALID: ""
+
+TACOS:
+    ANNOTATION:
+    VIDEO:
+        FEATURE:
+            ROI: "/data02/yangyang/guozihang/tacos/roi"
+
+CHARADESV1:
+    ANNOTATION:
+    VIDEO:
+
+ACTIVATYNET:
+    ANNOTATION:
+
+    VIDEO:
+        RAW:
+            TRAIN: "/data02/yangyang/VTR/datasets/ActivityNetDataset/video/train"
+            TEST: "/data02/yangyang/VTR/datasets/ActivityNetDataset/video/test"
+            VAL: "/data02/yangyang/VTR/datasets/ActivityNetDataset/video/val"
+        FEATURE:
+            ROI:
+                TRAIN: "/data02/yangyang/guozihang/activitynet/roi_30/"
+                TEST: ""
+                VAL: ""
+
+
+
+
+
+
