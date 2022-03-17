@@ -59,7 +59,7 @@ class FasterRCNNExtractor(BaseExtractor):
 
     def extract_all(self):
         for i in range(len(self.files)):
-            # if (self.files[i][:-4] + ".npy" not in self.out_files) and (self.files[i] not in self.error_list):
+            # if (self.files[i][:-4] + ".npy" not in self.out_files) and (self.files[i] not in self.error_list) and self.files[i][:-4] != '.mkv':
             if self.files[i][:-4] + ".npy" not in self.out_files:
                 in_file = os.path.join(self.in_path, self.files[i])
                 out_file = os.path.join(self.out_path, self.files[i][:-4] + ".npy")
@@ -106,7 +106,6 @@ class FasterRCNNExtractor(BaseExtractor):
                     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                     tensor = torch.FloatTensor(torch.as_tensor(frame).numpy())
                     tensor = tensor.permute(2, 0, 1)
-
                     tensor = self.trans(tensor)
 
                     feature = self.get_feature(tensor)
@@ -150,5 +149,5 @@ if __name__ == "__main__":
         in_path="/data02/yangyang/VTR/datasets/ActivityNetDataset/video/train",
         out_path="/data02/yangyang/guozihang/activitynet/roi_30"
     )
-    # ex.create_split()
-    ex.extract_all()
+    ex.create_split()
+    # ex.extract_all()

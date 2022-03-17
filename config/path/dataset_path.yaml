@@ -60,8 +60,18 @@ HOW2SIGN:
 TACOS:
     ANNOTATION:
     VIDEO:
+        RAW: "/data01/yangyang/liuxiaolei/tacos/videos"
         FEATURE:
-            ROI: "/data02/yangyang/guozihang/tacos/roi"
+            CLIP:
+                2S: "/data01/yangyang/liuxiaolei/CLIP_TACOS/tacos"
+                16_FPS: "/data01/yangyang/liuxiaolei/CLIP_TACOS/video_frame16"
+            C3D:
+                RAW: "/home/HuaiWen/huaiwen97/liuxiaolei/2D-TAN/data/TACoS/tall_c3d_features.hdf5"
+                STRONG: "/data01/yangyang/liuxiaolei/CLIP_TACOS/strong_c3d"
+            FASTERRCNN:
+                TRAIN: "/data01/yangyang/liuxiaolei/CLIP_TACOS/train_data_pics_vec_pool"
+                TEST: "  /data01/yangyang/liuxiaolei/CLIP_TACOS/test_data_pics_vec_pool"
+            I3D: "  /data01/yangyang/liuxiaolei/CLIP_TACOS/tacos_i3d.hdf5"
 
 CHARADESV1:
     ANNOTATION:

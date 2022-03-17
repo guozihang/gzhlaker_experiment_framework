@@ -1,53 +1,55 @@
 # -*- encoding: utf-8 -*-
 """
-@File    :   blip_extractor.py.py    
+@File    :   i3d_extractor.py.py    
 @Contact :   15047271937.@163.com
 @License :   (C)Copyright 2021-2022, Gzhlaker
 
 @Modify Time      @Author    @Version    @Desciption
 ------------      -------    --------    -----------
-2022/3/14 10:31 上午   Gzhlaker      1.0         None
+2022/3/15 6:43 下午   Gzhlaker      1.0         抽取 i3d 的特征
 """
+import os
+import torch
+import numpy as np
+from torchvision import transforms
 import sys
 
 sys.path.append(".")
-sys.path.append("./three/blip")
-from core.manager.path_manager import PathManager
-
-import torch
-import torch.nn.functional as F
 from core.manager.printer import Printer
-from three.blip.models.blip_retrieval import blip_retrieval
+from core.manager.path_manager import PathManager
 
 from base_extractor import BaseExtractor
 
-from three.blip.models.blip import blip_feature_extractor
+from three.pytorch_i3d import InceptionI3d, videotransforms
 
 
-class BlipExtractor(BaseExtractor):
+class I3DExtractor(BaseExtractor):
     def __init__(self, in_path, out_path):
         self.in_path = in_path
         self.out_path = out_path
         self.in_files = self.get_file_name(in_path)
         self.out_files = self.get_file_name(out_path)
         self.model = None
+        self.trans = None
 
     def start_extract(self):
         self.get_model()
+        self.get_trans()
         self.extract_all()
 
+    @torch.no_grad()
     def get_model(self):
-        """
-        读取预训练模型
-        Returns:
-
-        """
-        self.model = blip_retrieval(
-            pretrained='/data02/yangyang/guozihang/pretrain_model'
-                       '/model_base_retrieval_coco.pth',
-            image_size=384,
-            vit='base'
+        self.model = InceptionI3d(400, in_channels=3)
+        self.model.replace_logits(157)
+        self.model.load_state_dict(
+            torch.load('./three/pytorch_i3d/models/rgb_charades.pt')
         )
+        self.model.eval()
+        self.model.to("cuda")
+
+    @torch.no_grad()
+    def get_trans(self):
+        self.trans = transforms.Compose([videotransforms.CenterCrop(224)])
 
     @torch.no_grad()
     def extract_all(self):
@@ -71,39 +73,39 @@ class BlipExtractor(BaseExtractor):
     def extract(self, in_file):
         info = self.get_file_info(in_file)
         frames = self.load_frames_with_decord(in_file)
-        stacked_frames = torch.stack([frames])
-        final_frames = frames.permute(0, 2, 1, 3, 4)
-        B, N, C, W, H = final_frames.size()
-        video = final_frames.view(-1, C, W, H)
+        trans_frames = self.trans(frames.permute(0, 2, 3, 1))
+        stacked_frames = torch.stack([trans_frames.permute(0, 3, 1, 2)])
         Printer.print_panle_no_log(
             {
                 "raw tensor shape": frames.size(),
-                "stacked tensor shape": stacked_frames.size(),
-                "final tensor shape": final_frames.size(),
-                "video": video.size()
+                "trans tensor shape": trans_frames.size(),
+                "stacked tensor shape": stacked_frames.size()
             },
             title="input tensor"
         )
-        video_features = self.model.visual_encoder(video)
-        video_embed_1 = self.model.vision_proj(video_features[:, 0, :])
-        video_embed_2 = video_embed_1.view(B, N, -1).mean(dim=1)
-        video_embed_3 = F.normalize(video_embed_2, dim=-1)
+        out_features_1 = self.model.extract_features(stacked_frames.float().to("cuda"))
+        out_features_2 = out_features_1.squeeze(0).permute(1, 2, 3, 0)
+        out_features_3 = torch.flatten(out_features_2, start_dim=0, end_dim=2)
         Printer.print_panle_no_log(
             {
-                "video_features": video_features.size(),
-                "video_embed_1": video_embed_1.size(),
-                "video_embed_2": video_embed_2.size(),
-                "video_embed_3": video_embed_3.size()
+                "out tensor shape 1": out_features_1.size(),
+                "out tensor shape 2": out_features_2.size(),
+                "out tensor shape 3": out_features_3.size()
             },
             title="output tensor"
         )
-        del frames, trans_frames, stacked_frames, video_embed_1, video_embed_2,
-        return video_embed_3
+        del frames, trans_frames, stacked_frames, out_features_1, out_features_2
+        return out_features_3
+
+    def create_txt(self):
+        with open("/home/HuaiWen/huaiwen97/gzh/gzhlaker_three_video_features/list.txt", mode="w") as f:
+            for line in self.in_files:
+                f.write(os.path.join(self.in_path, line) + "\n")
 
 
 if __name__ == '__main__':
-    extractor = BlipExtractor(
-        in_path=PathManager.get_dataset_path(("TACOS", "VIDEO", "RAW")),
+    extractor = I3DExtractor(
+        in_path=PathManager.get_dataset_path(("ACTIVATYNET", "VIDEO", "RAW", "TRAIN")),
         out_path=PathManager.get_dataset_path(("TACOS", "VIDEO", "FEATURE", "I3D"))
     )
-    extractor.start_extract()
+    extractor.create_txt()

@@ -354,6 +354,14 @@ def create_logits(x1, x2, logit_scale):
     return logits_per_x1, logits_per_x2
 
 
+def get_txt_data(path):
+    lines = []
+    with open(path) as f:
+        for line in f:
+            lines.append(line[:-1])
+    return lines
+
+
 def get_file_name(path):
     """
     获取一个文件夹下的所有名称
@@ -401,6 +409,3 @@ def get_split_list(data, split_num, name_template="split_{}"):
     for _i in range(split_num):
         with open(name_template.format(_i), mode="wb") as f:
             pickle.dump(_list[_i], f)
-
-
-
