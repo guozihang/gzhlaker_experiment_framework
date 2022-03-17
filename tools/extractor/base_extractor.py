@@ -105,7 +105,14 @@ class BaseExtractor:
         _video_reader = VideoReader(filepath)
         _sampled_indices = np.arange(0, len(_video_reader), int(_info["video_fps"]), dtype=int)
         _frames = _video_reader.get_batch(_sampled_indices)
-        return _frames.permute(3, 0, 1, 2)
+        _frames = _frames.permute(3, 0, 1, 2)
+        Printer.print_panle_no_log(
+            {
+                "shape":_frames.size()
+            },
+            title="{} frame info".format(filepath)
+        )
+        return _frames
 
     def load_frames_with_ffmpeg(self):
         pass

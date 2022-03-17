@@ -91,6 +91,17 @@ ACTIVATYNET:
                 TEST: ""
                 VAL: ""
 
+MSVTT:
+    ANNOTATION:
+        RAW: "/data02/yangyang/data_95/data/CLIP4CLIP/msvd_data/raw-captions.pkl"
+        SLICE:
+            TRAIN: "/data02/yangyang/data_95/data/CLIP4CLIP/msvd_data/train_list.txt"
+            TEST: "/data02/yangyang/data_95/data/CLIP4CLIP/msvd_data/test_list.txt"
+    VIDEO:
+        RAW: "/data02/yangyang/VTR/CLIP4CLIP/YouTubeClips"
+        FEATURE:
+            CLIP: "/data02/yangyang/guozihang/MSVTT/CLIP"
+
 
 
 
