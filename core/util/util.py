@@ -407,5 +407,6 @@ def get_split_list(data, split_num, name_template="split_{}"):
         _j = _i % split_num
         _list[_j].append(data[_i])
     for _i in range(split_num):
-        with open(name_template.format(_i), mode="wb") as f:
-            pickle.dump(_list[_i], f)
+        with open(name_template.format(_i), mode="a+") as f:
+            for _j in _list[_i]:
+                f.write(_j + "\n")

@@ -9,9 +9,16 @@
 2022/2/20 3:37 PM   Gzhlaker      1.down.sh         None
 """
 import os
+from abc import ABC
+
+import cv2
+from abstract_parser import AbstractParser
 
 
-class BaseParser:
+class BaseParser(AbstractParser, ABC):
+    """
+    所有标注解析类的基类，实现了一些工具方法
+    """
 
     def get_file_count(self, path):
         """
@@ -41,4 +48,16 @@ class BaseParser:
             files.append(file)
         return files
 
+    def get_file_info(self, filepath):
+        cap = cv2.VideoCapture(filepath)
+        # get video info
+        video_info = {
+            "video_width": cap.get(3),
+            "video_height": cap.get(4),
+            "video_fps": int(cap.get(5)),
+            "video_frame_num": int(cap.get(7)),
+            "video_format": cap.get(8)
 
+        }
+        cap.release()
+        return video_info

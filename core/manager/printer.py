@@ -45,7 +45,7 @@ class Printer:
     @staticmethod
     def print_panle(str, title="None") -> None:
         pretty = Pretty(str)
-        Printer.print(Panel(pretty, title=title))
+        Printer.print_log(Panel(pretty, title=title))
 
     @staticmethod
     def print_rule(data: str, characters="*") -> None:

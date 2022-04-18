@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 """
-@File    :   mkv2mp4.py    
+@File    :   any2mp4.py
 @Contact :   15047271937.@163.com
 @License :   (C)Copyright 2021-2022, Gzhlaker
 
@@ -21,7 +21,7 @@ def get_txt_data(path):
     lines = []
     with open(path) as f:
         for line in f:
-            lines.append(line[:-1 ])
+            lines.append(line[:-1])
     return lines
 
 
@@ -45,10 +45,12 @@ class MKV2MP4Converter:
         self.lines = get_file_name(video_path)
         self.video_path = video_path
         self.output_path = output_path
+        self.out_lines = get_file_name(output_path)
 
     def convert(self):
         for line in track(self.lines):
-            if line[-4:] != ".mp4":
+            if line[-4:] != ".mp4" and line + ".mp4" not in self.out_lines:
+                print(line)
                 self.video_2_mp4(line)
 
     def video_2_mp4(self, filename):
@@ -73,7 +75,7 @@ class MKV2MP4Converter:
 
 if __name__ == "__main__":
     converter = MKV2MP4Converter(
-        video_path="/data02/yangyang/VMR/DiDeMo/test/test_videos",
-        output_path="/data02/yangyang/VMR/DiDeMo/test/convert"
+        video_path="/data02/yangyang/VTR/datasets/ActivityNetDataset/video/train",
+        output_path="/data02/yangyang/VTR/datasets/ActivityNetDataset/video/train_convert"
     )
     converter.convert()

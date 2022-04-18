@@ -12,7 +12,7 @@
 import os
 import multiprocessing
 import sys
-
+import abc
 import cv2
 import numpy as np
 import torch
@@ -22,9 +22,7 @@ sys.path.append(".")
 from core.manager.printer import Printer
 import decord
 from decord import VideoReader
-
 decord.bridge.set_bridge("torch")
-
 
 class BaseExtractor:
     def get_file_name(self, path):
@@ -96,23 +94,54 @@ class BaseExtractor:
         cap.release()
         return torch.stack(frame_tensors)
 
-    def load_frames_with_decord(self, filepath):
+    def load_frames_with_decord(self, filepath, frame_rate=4):
+        """
+
+        Args:
+            filepath:
+            frame_rate: 视频帧采样率，1 代表每秒采样一帧。
+
+        Returns: [n, c, h, w]
+
+        """
         _info = self.get_file_info(filepath)
         Printer.print_panle_no_log(
             _info,
             title="{} info".format(filepath)
         )
         _video_reader = VideoReader(filepath)
+        assert frame_rate > 0
+        # if _info["video_frame_num"] <= 140:
+        #     # 如果视频时长太短，建议自行调节 frame_rate
+        #     _sampled_indices = np.arange(0, len(_video_reader), 1, dtype=int)
+        # elif _info["video_frame_num"] >= 1200 and _info["video_frame_num"] < 2400:
+        #     # 如果视频时长太长，建议自行调节 frame_rate
+        #     _sampled_indices = np.arange(0, len(_video_reader), 2, dtype=int)
+        # elif _info["video_frame_num"] >= 2400 and _info["video_frame_num"] < 5000:
+        #     # 如果视频时长太长，建议自行调节 frame_rate
+        #     _sampled_indices = np.arange(0, len(_video_reader), 4, dtype=int)
+        # elif _info["video_frame_num"] >= 5000:
+        #     # 如果视频时长太长，建议自行调节 frame_rate
+        #     _sampled_indices = np.arange(0, len(_video_reader), 8, dtype=int)
+        # else:
+            # _sampled_indices = np.arange(0, len(_video_reader), int(_info["video_fps"] / frame_rate), dtype=int)
         _sampled_indices = np.arange(0, len(_video_reader), int(_info["video_fps"]), dtype=int)
         _frames = _video_reader.get_batch(_sampled_indices)
-        _frames = _frames.permute(3, 0, 1, 2)
+        _frames = _frames.permute(0, 3, 1, 2)
+
         Printer.print_panle_no_log(
             {
-                "shape":_frames.size()
+                "shape": _frames.size()
             },
             title="{} frame info".format(filepath)
         )
         return _frames
 
+    def load_frames_with_images(self, image_path):
+        pass
+
     def load_frames_with_ffmpeg(self):
+        pass
+
+    def get_split_data(self):
         pass

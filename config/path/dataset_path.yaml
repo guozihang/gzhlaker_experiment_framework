@@ -71,7 +71,7 @@ TACOS:
             FASTERRCNN:
                 TRAIN: "/data01/yangyang/liuxiaolei/CLIP_TACOS/train_data_pics_vec_pool"
                 TEST: "  /data01/yangyang/liuxiaolei/CLIP_TACOS/test_data_pics_vec_pool"
-            I3D: "  /data01/yangyang/liuxiaolei/CLIP_TACOS/tacos_i3d.hdf5"
+            I3D: "/data01/yangyang/liuxiaolei/CLIP_TACOS/tacos_i3d.hdf5"
 
 CHARADESV1:
     ANNOTATION:
@@ -90,17 +90,20 @@ ACTIVATYNET:
                 TRAIN: "/data02/yangyang/guozihang/activitynet/roi_30/"
                 TEST: ""
                 VAL: ""
+            I3D:
+                TRAIN: "/data02/yangyang/guozihang/activitynet/i3d"
 
-MSVTT:
+MSVD:
     ANNOTATION:
         RAW: "/data02/yangyang/data_95/data/CLIP4CLIP/msvd_data/raw-captions.pkl"
         SLICE:
             TRAIN: "/data02/yangyang/data_95/data/CLIP4CLIP/msvd_data/train_list.txt"
             TEST: "/data02/yangyang/data_95/data/CLIP4CLIP/msvd_data/test_list.txt"
+            VAL: "/data02/yangyang/data_95/data/CLIP4CLIP/msvd_data/val_list.txt"
     VIDEO:
         RAW: "/data02/yangyang/VTR/CLIP4CLIP/YouTubeClips"
         FEATURE:
-            CLIP: "/data02/yangyang/guozihang/MSVTT/CLIP"
+            CLIP: "/data02/yangyang/guozihang/MSVD/CLIP"
 
 
 

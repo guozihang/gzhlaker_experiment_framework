@@ -29,19 +29,11 @@ class FasterRCNNExtractor(BaseExtractor):
         self.in_path = in_path
         self.out_path = out_path
         self.files = []
-        # with open(in_file, mode="rb") as f:
-        #     self.files = pickle.load(f)
-        self.files = self.get_file_name(in_path)
-        self.error_list = [
-            "v_TPsMocKBQU0.mp4",
-            "v_IuY073Pr4E4.mkv",
-            "v_4b2_OpAGwW0.mp4",
-            "v_exhsUZg_xQA.mp4",
-            "v_YD7pb5-CZdI.mp4",
-            "v_1XQUDJhMcj8.mp4",
-            "v_smk2WJV1Zmo.mp4",
-            "7SQXM.mp4"
-        ]
+        with open(in_file, mode="r") as f:
+            for line in f:
+                self.files.append(line[:-1])
+                print(line[:-1].split("/"))
+        # self.files = self.get_file_name(in_path)
         self.out_files = self.get_file_name(out_path)
         self.get_model()
         self.trans = torchvision.transforms.Resize([800, 800])
@@ -60,9 +52,10 @@ class FasterRCNNExtractor(BaseExtractor):
     def extract_all(self):
         for i in range(len(self.files)):
             # if (self.files[i][:-4] + ".npy" not in self.out_files) and (self.files[i] not in self.error_list) and self.files[i][:-4] != '.mkv':
-            if self.files[i][:-4] + ".npy" not in self.out_files:
-                in_file = os.path.join(self.in_path, self.files[i])
-                out_file = os.path.join(self.out_path, self.files[i][:-4] + ".npy")
+            if self.files[i].split("/")[-1][:-4] + ".npy" not in self.out_files:
+                # in_file = os.path.join(self.in_path, self.files[i])
+                in_file = self.files[i]
+                out_file = os.path.join(self.out_path, self.files[i].split("/")[-1][:-4] + ".npy")
                 Printer.print_panle_no_log(
                     {
                         "in": in_file,
@@ -146,8 +139,8 @@ if __name__ == "__main__":
 
     ex = FasterRCNNExtractor(
         in_file=filename,
-        in_path="/data02/yangyang/VTR/datasets/ActivityNetDataset/video/train",
-        out_path="/data02/yangyang/guozihang/activitynet/roi_30"
+        in_path="/data02/yangyang/VTR/datasets/ActivityNetDataset/video/val2",
+        out_path="/data02/gzh/acnet/test_roi_val2"
     )
-    ex.create_split()
-    # ex.extract_all()
+    # ex.create_split()
+    ex.extract_all()

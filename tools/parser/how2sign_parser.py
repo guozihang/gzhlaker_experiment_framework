@@ -10,16 +10,19 @@
 """
 import math
 import json
+from abc import ABC
+
 import cv2
 import pandas as pd
 from rich.progress import track
 from rich.traceback import install
+
 from base_parser import BaseParser
 
 install(show_locals=True)
 
 
-class How2SignParser(BaseParser):
+class How2SignParser(BaseParser, ABC):
 
     def __init__(self, video_path="", frame_path="", split_path="", file_name="", class_dict={}):
         self.lines = []
@@ -45,6 +48,15 @@ class How2SignParser(BaseParser):
             self.video_fps_dict[_file_list[_index]] = _fps
 
     def get_split_data(self, path, name):
+        """
+        解析原始的标注数据
+        Args:
+            path: 标注数据文件所在的位置
+            name: 名称
+
+        Returns:
+            pass
+        """
         _split_csv_data = pd.read_csv(path, encoding="utf-8", header=0, delimiter="\t")
         for index in track(range(len(_split_csv_data)), description="parse split data..."):
             _video_id = _split_csv_data["VIDEO_ID"][index]
