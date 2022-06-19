@@ -12,10 +12,9 @@ import os
 from abc import ABC
 
 import cv2
-from abstract_parser import AbstractParser
 
 
-class BaseParser(AbstractParser, ABC):
+class BaseParser:
     """
     所有标注解析类的基类，实现了一些工具方法
     """
